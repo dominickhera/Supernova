@@ -1,0 +1,9 @@
+Suicide Growth Rate Script
+=========================
+
+
+Script requires two years in which it will find the growth rate of the suicide statistic in the teenager age group (13-19)
+
+example command: perl suicideGrowthRate.pl 2003 2014
+
+
