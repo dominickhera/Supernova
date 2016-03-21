@@ -30,11 +30,15 @@ my $filename     = $EMPTY;
 my $fileStart = $EMPTY;
 my $fileEnd = $EMPTY;
 my $fileInc = $EMPTY;
-my $fileCIS = $EMPTY;
+my $testShit = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my @records;
 my $record_count = 0;
 my $record2 = 0;
+my @secondRecords;
+my $secondRecordCount = 0;
+my $secondRecordCount2 = 0;
+#my $yearDifference = 0;
 my $count;
 my @date;
 my @gender;
@@ -44,31 +48,28 @@ my @month;
 my @month1;
 my @Mtotal;
 my @hold;
-my $test;
+my $firstYearCount;
+my $secondYearCount;
+#my $firstYearNum;
+#my $secondYearNum;
 
-# $month1[1] = "January";
-# $month1[2] = "February";
-# $month1[3] = "March";
-# $month1[4] = "April";
-# $month1[5] = "May";
-# $month1[6] = "June";
-# $month1[7] = "July";
-# $month1[8] = "August";
-# $month1[9] = "September";
-# $month1[10] = "October";
-# $month1[11] = "November";
-# $month1[12] = "December";
 
 #
 #   Check that you have the right number of parameters
 #
-if ($#ARGV != 0 ) {
-   print "Usage: readStats.pl <input csv file>\n" or
-      die "Print failure\n";
-   exit;
-} else {
+# if ($#ARGV != 0 ) {
+#    print "Usage: suicideGrowthRate.pl <input csv file>\n" or
+#       die "Print failure\n";
+#    exit;
+# } else {
    $filename = $ARGV[0];
-}
+   $fileEnd = $ARGV[1];
+   $fileInc = $ARGV[2];
+   $testShit = $ARGV[3];
+#}
+
+my $firstYearNum = $fileInc;
+my $secondYearNum = $testShit;
 
 #
 #   Open the input file and load the contents into records array
@@ -79,6 +80,14 @@ open my $names_fh, '<', $filename
 @records = <$names_fh>;
 
 close $names_fh or
+   die "Unable to close: $ARGV[0]\n";   # Close the input file
+
+open my $names2_fh, '<', $fileEnd
+   or die "Unable to open names file: $filename\n";
+
+@secondRecords = <$names2_fh>;
+
+close $names2_fh or
    die "Unable to close: $ARGV[0]\n";   # Close the input file
 
 #print qq["Sex","Month","Suicide"\n];
@@ -98,6 +107,21 @@ foreach my $name_record ( @records ) {
    }
    $record_count++;
 }
+
+foreach my $name_record ( @secondRecords ) {
+   if ( $csv->parse($name_record) ) {
+      my @master_fields = $csv->fields();
+       $secondRecordCount2++;
+       $gender[$secondRecordCount2] = $master_fields[4];
+       $date[$secondRecordCount2] = $master_fields[1];
+       $mod[$secondRecordCount2] = $master_fields[12];
+   } else {
+      warn "Line/record could not be parsed: $records[$record_count]\n";
+   }
+   $secondRecordCount++;
+}
+
+
 
 for (my $c = 1; $c <= 12; $c++)
 {
@@ -120,12 +144,21 @@ for (my $b = 1; $b <= 12; $b++)
         if ($mod[$i] eq '2' && $date[$i] eq $month[$b])
         {
             $count++;
-            $test++;
+            $firstYearCount++;
         }
     }
 }
 
-print "Total Suicides: ".$test."\n";
+print "Total Suicides: ".$firstYearCount."\n";
+
+my $yearDifference = $fileInc - $fileEnd;
+
+#$yearDifference = $ARGV[2];
+
+print "Year Difference is ".$yearDifference."\n";
+
+
+
 # for (my $b = 1; $b <= 12; $b++)
 # {
 #     $count = 0;
