@@ -6,16 +6,14 @@ use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-# to parse each line
-
 #
-#   getManner.pl
-#      Author(s): Dominick Hera (0943778), Kevin Pirabaharan (0946212)
-#      Project: Lab Assignment 4 Task 1 Script
-#      Date of Last Update: Saturday, February 11 2016.
+#   educationAndDeath.pl
+#      Author(s): Kevin Pirabaharan (0946212)
+#      Project: Level of Education vs. Death Rate
+#      Date of Last Update: Saturday, March 21 2016.
 #
 #      Functional Summary
-#         readStats.pl takes in a CSV (comma separated version) file
+#         ducationAndDeath.pl takes in a CSV (comma separated version) file
 #         containing death stats for the USA for a particular year
 #
 #      Commandline Parameters: 1
