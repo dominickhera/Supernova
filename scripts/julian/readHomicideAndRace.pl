@@ -21,3 +21,11 @@ my $record_count;
 my @races = ();
 my @race_manner;
 my @manners = ('Not Specified', 'Accident', 'Suicide', 'Homicide', 'Pending Investigation', 'Could not determine', 'Self-Inflicted', 'Natural');
+my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanese', 'Hawaiian', 'Filipino', 'Asian-Indian', 'Korean', 'Samoan', 'Vietnamese', 'Guamanian', 'Other Asian/Pacific Islander'); 
+
+#
+#Race is masterfields[]? TODO
+#Homicide is encoded as 3.
+#
+#Race is masterfields[5]
+#
