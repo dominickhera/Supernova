@@ -23,3 +23,5 @@ Return:
 
 Optionally:
     to access the debug (short hand) version, pass "test" in as the final argument.
+    to enable time stamps, include "time" as the final (3rd) argument.
+        ("test" enables time as well)

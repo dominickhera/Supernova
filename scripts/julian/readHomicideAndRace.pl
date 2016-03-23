@@ -31,6 +31,11 @@ my $end_year;
 my $current_year;
 
 my $test_flag = 0;
+my $time_flag = 0;
+
+
+my $start_stamp;
+my $end_stamp;
 
 #
 #START OF SCRIPT
@@ -52,8 +57,14 @@ else
         if($ARGV[2] eq 'test')
         {
             $test_flag = 1;
+            $time_flag = 1;
             $file_suffix = "Test.txt"; 
         }
+        if($ARGV[2] eq 'time')
+        {
+            $time_flag = 1;
+        }
+        
     }
 }
 
@@ -69,6 +80,13 @@ else
 #Race is masterfields[5]
 #
 #
+
+
+$start_stamp = localtime();
+if($time_flag == 1)
+{
+    print "Started at $start_stamp\n";
+}
 
 
 for $current_year ($start_year..$end_year)
@@ -144,5 +162,12 @@ if($test_flag == 1)
     print "In total, there were ".$homicides." homicides.\n"
 }
 
+$end_stamp = localtime();
+if($time_flag == 1)
+{
+    print "Finished at $end_stamp.\n";
+}
 
-
+#
+#   End of Script.
+#
