@@ -1,0 +1,27 @@
+********************************
+Giuliano Sovernigo
+0948924
+gsoverni@mail.uoguelph.ca
+CIS*2250_W16
+********************************
+
+Script:
+    readHomicideAndRace.pl
+
+Descrip:
+    This script reads, from a file, the races and homicides for a given range
+    of years.  These years are specified using command line arguments.
+
+Usage:  
+    ./readHomicideAndRace.pl <start year> <end year>
+
+Return:
+    The races' murder rates for the years, represented as:
+    x:y
+    where x is the race number (according to the US mortality encoding)
+    where y is the number of murders that have occured in that race.
+
+Optionally:
+    to access the debug (short hand) version, pass "test" in as the final argument.
+    to enable time stamps, include "time" as the final (3rd) argument.
+        ("test" enables time as well)

@@ -24,12 +24,18 @@ my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanes
 my $homicides = 0;
 
 
-my $file_suffix = "Test.txt"; #= "MortUSA.txt";
+my $file_suffix = "MortUSA.txt";
 
 my $start_year;
 my $end_year;
 my $current_year;
 
+my $test_flag = 0;
+my $time_flag = 0;
+
+
+my $start_stamp;
+my $end_stamp;
 
 #
 #START OF SCRIPT
@@ -46,10 +52,24 @@ else
 {
     $start_year = $ARGV[0];
     $end_year   = $ARGV[1];
+    if($#ARGV > 1)
+    {
+        if($ARGV[2] eq 'test')
+        {
+            $test_flag = 1;
+            $time_flag = 1;
+            $file_suffix = "Test.txt"; 
+        }
+        if($ARGV[2] eq 'time')
+        {
+            $time_flag = 1;
+        }
+        
+    }
 }
 
 #FOR 2003+
-#manner is masterfields[13]
+#manner is masterfields[12]
 #Homicide is encoded as 3.
 #
 #Race is masterfields[5]
@@ -60,6 +80,13 @@ else
 #Race is masterfields[5]
 #
 #
+
+
+$start_stamp = localtime();
+if($time_flag == 1)
+{
+    print "Started at $start_stamp\n";
+}
 
 
 for $current_year ($start_year..$end_year)
@@ -87,14 +114,14 @@ for $current_year ($start_year..$end_year)
             $record_race = $csv_fields[5];
             if($current_year > 2002)
             {
-                $record_manner = $csv_fields[13];
+                $record_manner = $csv_fields[12];
             }
             else
             {
                 $record_manner = $csv_fields[11];
             }
 
-            if(int($record_manner) == 12) # if the current person died of a homicide.
+            if($record_manner eq '3') # if the current person died of a homicide.
             {
                 $race_manner[$record_race] ++;
                 $homicides ++;
@@ -103,20 +130,44 @@ for $current_year ($start_year..$end_year)
         }
         else # there is an unparseable line.
         {
-            warn "Could not parse line $year_record\n";
+            if($test_flag == 1)
+            {
+                warn "Could not parse line $year_record\n";
+            }
         }
     }
 
 }
 
 
-print "Here are the homicides over the last ".($end_year - $start_year)." years.\n";
+if($test_flag == 1)
+{
+    print "Here are the homicides over the last ".($end_year - $start_year)." years.\n";
+}
 
 for my $i (0..(scalar(@race_manner) - 1))
 {
-    print $races[$i].": ".$race_manner[$i]." homicides.\n";
+    if($test_flag == 1)
+    {
+        print $races[$i].":".$race_manner[$i]." homicides.\n";
+    }
+    else
+    {
+        print $i.":".$race_manner[$i]."\n";
+    }
 }
-print "In total, there were ".$homicides." homicides.\n"
 
+if($test_flag == 1)
+{
+    print "In total, there were ".$homicides." homicides.\n"
+}
 
+$end_stamp = localtime();
+if($time_flag == 1)
+{
+    print "Finished at $end_stamp.\n";
+}
 
+#
+#   End of Script.
+#
