@@ -15,19 +15,27 @@ my $COMMA = q{,};
 my $LIMIT = 5;
 
 my $filename     = $EMPTY;
+my $secondFilename = $EMPTY;
 my $fileStart = $EMPTY;
 my $fileEnd = $EMPTY;
 my $fileInc = $EMPTY;
 my $fileCIS = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my @records;
+my @secondRecords;
 my $record_count = 0;
+my $record_count2 = 0;
 my $record2 = 0;
+my $record3 = 0;
 my $count;
 my @date;
 my @gender;
 my @mod;
 my @age;
+my @second_date;
+my @second_gender;
+my @second_mod;
+my @second_age;
 my @Ftotal;
 my @month;
 my @month1;
@@ -36,6 +44,7 @@ my @hold;
 my $suffix = ".txt";
 my $baseName = "Test";
 my $firstSuicideCount = 0;
+my $secondSuicideCount = 0;
 
 # $month1[1] = "January";
 # $month1[2] = "February";
@@ -62,8 +71,11 @@ if ($#ARGV != 1 ) {
     exit;
 } else {
 # my $firstYear = $ARGV[0];
-    my $secondYear = $ARGV[1];
-    $filename = "$firstYear"."$baseName"."$suffix"
+# my $secondYear = $ARGV[1];
+
+    $filename = "$firstYear"."$baseName"."$suffix";
+    $secondFilename = "$secondYear"."$baseName"."$suffix";
+
 #$filename = $ARGV[0];
 }
 
@@ -73,51 +85,53 @@ if ($#ARGV != 1 ) {
 open my $names_fh, '<', $filename
 or die "Unable to open names file: $filename\n";
 
+open my $secondNames_fh, '<', $secondFilename
+or die "Unable to open names file: $secondFilename\n";
+
 @records = <$names_fh>;
+@secondRecords = <$secondNames_fh>;
+
 
 close $names_fh or
 die "Unable to close: $ARGV[0]\n";   # Close the input file
 
-#print qq["Sex","Month","Suicide"\n];
+close $secondNames_fh or
+die "Unable to close: $ARGV[1]\n";
+
 
 #
 #   Parse each line and print out the information
 #
-
-if ($firstYear > 2002 || $secondYear > 2002)
+foreach my $name_record ( @records ) 
 {
-    foreach my $name_record ( @records ) {
-        if ( $csv->parse($name_record) ) {
-            my @master_fields = $csv->fields();
-            $record2++;
-            $gender[$record2] = $master_fields[4];
-            $date[$record2] = $master_fields[1];
-            $mod[$record2] = $master_fields[2];
-            $age[$record2] = $master_fields[3];
-        } else {
-            warn "Line/record could not be parsed: $records[$record_count]\n";
-        }
-        $record_count++;
-    }
-}
-else
-{
-    foreach my $name_record ( @records )
+    if ( $csv->parse($name_record) ) 
     {
-        if ( $csv->parse($name_record) ) 
-        {
-            my @master_fields = $csv->fields();
-            $record2++;
-            $gender[$record2] = $master_fields[4];
-            $date[$record2] = $master_fields[1];
-            $mod[$record2] = $master_fields[2];
-        } 
-        else 
-        {
-            warn "Line/record could not be parsed: $records[$record_count]\n";
-        }
-
+        my @master_fields = $csv->fields();
+        $record2++;
+        $gender[$record2] = $master_fields[4];
+        $date[$record2] = $master_fields[1];
+        $mod[$record2] = $master_fields[2];
+        $age[$record2] = $master_fields[3];
+    } else {
+        warn "Line/record could not be parsed: $records[$record_count]\n";
     }
+    $record_count++;
+}
+
+foreach my $second_name_record ( @secondRecords ) 
+{
+    if ( $csv->parse($second_name_record) ) 
+    {
+        my @master_fields = $csv->fields();
+        $record3++;
+        $second_gender[$record3] = $master_fields[4];
+        $second_date[$record3] = $master_fields[1];
+        $second_mod[$record3] = $master_fields[2];
+        $second_age[$record3] = $master_fields[3];
+    } else {
+        warn "Line/record could not be parsed: $records[$record_count]\n";
+    }
+    $record_count2++;
 }
 
 for (my $c = 1; $c <= 12; $c++)
@@ -131,19 +145,69 @@ for (my $c = 1; $c <= 12; $c++)
         $month[$c] = $c;
     }
 }
-for (my $b = 1; $b <= 12; $b++)
+
+if ($firstYear > 2002)
 {
-    $count = 0;
-    for (my $i = 1; $i < $record2; $i++)
+    for (my $b = 1; $b <= 12; $b++)
     {
-        if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
+        $count = 0;
+        for (my $i = 1; $i < $record2; $i++)
         {
-            $count++;
-            $firstSuicideCount++;
+            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
+            {
+                $count++;
+                $firstSuicideCount++;
+            }
         }
     }
 }
-my $secondSuicideCount = 12;
+else
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record2; $i++)
+        {
+            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
+            {
+                $count++;
+                $firstSuicideCount++;
+            }
+        }
+    }  
+}
+
+if ($secondYear > 2002)
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record3; $i++)
+        {
+            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '1012' && $second_age[$i] < '1020')
+            {
+                $count++;
+                $secondSuicideCount++;
+            }
+        }
+    }
+}
+else
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record2; $i++)
+        {
+            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '1012' && $second_age[$i] < '1020')
+            {
+                $count++;
+                $secondSuicideCount++;
+            }
+        }
+    }  
+}
+
 my $subYearDifference = (1/$yearDifference);
 my $subPercentGrowthRate = ((($secondSuicideCount - $firstSuicideCount)/$firstSuicideCount) * 100);
 my $percentGrowthRate = ($subPercentGrowthRate / $yearDifference);
@@ -151,7 +215,7 @@ my $percentGrowthRate = ($subPercentGrowthRate / $yearDifference);
 print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
 print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
 print "Year Difference is ".$yearDifference."\n";
- print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
+print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
 
 # for (my $b = 1; $b <= 12; $b++)
 # {
