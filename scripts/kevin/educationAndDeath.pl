@@ -35,13 +35,11 @@ my $meansDeath;
 my $education;
 my $uneducatedCount = 0;
 my $educatedCount = 0;
-my $file_suffix = "MortUSA.txt";
+my $suffix = "MortUSA.txt";
 my $yearBegin;
 my $yearFinish;
 my $yearCurrent;
 my $test_flag = 0;
-my $start_stamp;
-my $end_stamp;
 my $record_count;
 my $educatedWorkDeath = 0;
 my $uneducatedWorkDeath = 0;
@@ -49,7 +47,7 @@ my $uneducatedWorkDeath = 0;
 
 if($#ARGV < 1) #Manage the number of arguments
 {
-    print "Incorrect arguments.  Please use as ./educationAndDeath <start year> <end year>\n";
+    print "Incorrect arguments.  Please use as ./educationAndDeath.pl <start year> <end year>\n";
     die "Argument Error\n";
     exit;
 }
@@ -62,7 +60,7 @@ else
         if($ARGV[2] eq 'test') #Use test cases right now to save time
         {
             $test_flag = 1;
-            $file_suffix = "Test.txt";
+            $suffix = "Test.txt";
         }
     }
 }
@@ -71,7 +69,7 @@ else
 #
 for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
 {
-    my $filename = $yearCurrent.$file_suffix;
+    my $filename = $yearCurrent.$suffix;
     my @records;
 
     open my $textFile, '<', $filename
