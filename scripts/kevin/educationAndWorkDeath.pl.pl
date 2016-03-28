@@ -13,7 +13,7 @@ use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher
 #      Date of Last Update: Saturday, March 21 2016.
 #
 #      Functional Summary
-#         ducationAndDeath.pl takes in a CSV (comma separated version) file
+#         educationAndDeath.pl takes in a CSV (comma separated version) file
 #         containing death stats for the USA for a particular year
 #
 #      Commandline Parameters: 1
@@ -21,7 +21,6 @@ use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher
 #
 #      References
 #
-
 #
 #   Variables to be used
 #
