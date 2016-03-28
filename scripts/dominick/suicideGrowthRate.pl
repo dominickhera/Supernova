@@ -43,7 +43,7 @@ my $baseName = "Test";
 my $firstSuicideCount = 0;
 my $secondSuicideCount = 0;
 
-print "Script started at ".$time."\n";
+print "Script started at ".$startTime."\n";
 
 #
 #   Check that you have the right number of parameters
