@@ -47,6 +47,8 @@ my $test_flag = 0;
 my $start_stamp;
 my $end_stamp;
 my $record_count;
+my $educatedWorkDeath;
+my $uneducatedWorkDeath;
 
 
 if($#ARGV < 1)
@@ -89,24 +91,56 @@ for $current_year ($start_year..$end_year)
             my @master_fields = $csv->fields();
             $record_count ++;
 
-            if($current_year > 2002)
+            if ($current_year eq 2003)
+            {
+                $injury = $master_fields[11];
+                $mod = $master_fields[12];
+                $education = $master_fields[7];
+                if (defined $education)
+                {
+                    #does nothing if it this field is populated else it will look in anohter field
+                }
+                else
+                {
+                $education = $master_fields[8];
+                }
+            }
+            elsif($current_year > 2003)
             {
                 $education = $master_fields[7];
                 $injury = $master_fields[11];
                 $mod = $master_fields[12];
             }
-            else
+            elsif ($current_year < 2003)
             {
-                print "wrong year \n";
+                $education = $master_fields[7];
+                $injury = $master_fields[10];
+                $mod = $master_fields[11];
             }
 
-            if($education < '13') # if the current person died of a homicide.
+            if (defined $education)
             {
-                $uneducatedCount ++;
-            }
-            else
-            {
-                $educatedCount ++;
+                if($education le '13')
+                {
+                    $uneducatedCount ++;
+                    if (defined $injury)
+                    {
+                        if ($injury eq 'Y')
+                        {
+                            $uneducatedWorkDeath ++;
+                            $educatedWorkDeath ++;
+                        }
+                        else
+                        {
+                            $educatedWorkDeath ++;
+                        }
+                    }
+                }
+                else
+                {
+                    $educatedCount ++;
+                    $educatedWorkDeath ++;
+                }
             }
         }
         else # there is an unparseable line.
@@ -120,7 +154,9 @@ for $current_year ($start_year..$end_year)
 }
 
 print "Total Deaths With Low-Education Level: ".$uneducatedCount."\n";
-print "Total Deaths With higher-Education Level: ".$educatedCount."\n";
+print "Total Deaths With Higher-Education Level: ".$educatedCount."\n";
+print "Total Work Related Deaths: ".$educatedWorkDeath."\n";
+print "Total Work Related Deaths As A Result of Low-Education: ".$uneducatedWorkDeath."\n";
 
 if ($uneducatedCount > $educatedCount)
 {
@@ -130,10 +166,9 @@ if ($uneducatedCount > $educatedCount)
     $yearGap = $end_year - $start_year;
     print "Therefore lower-education correlates to highter death rates by an average of ".$difference." over ".$yearGap." years \n";
 }
-
 else
 {
-    print "Therefore lower-education doesn't correlates to highter death \n";
+    print "Therefore lower-education doesn't correlate to highter death \n";
 }
 #
 #   End of Script
