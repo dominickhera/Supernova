@@ -6,7 +6,6 @@ use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-# to parse each line
 
 #
 #   Variables to be used
@@ -15,159 +14,189 @@ my $EMPTY = q{};
 my $COMMA = q{,};
 my $LIMIT = 5;
 
-
+my $filename     = $EMPTY;
+my $secondFilename = $EMPTY;
 my $fileStart = $EMPTY;
-my $firstYear = $EMPTY;
-my $secondYear = $EMPTY;
-my $testShit = $EMPTY;
-my @filenames;
+my $fileEnd = $EMPTY;
+my $fileInc = $EMPTY;
+my $fileCIS = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my @records;
-my $record_count = 0;
-my $record2 = 0;
 my @secondRecords;
-my $secondRecordCount = 0;
-my $secondRecordCount2 = 0;
-my $yearDifference = 0;
+my $record_count = 0;
+my $record_count2 = 0;
+my $record2 = 0;
+my $record3 = 0;
 my $count;
 my @date;
 my @gender;
 my @mod;
-my @Ftotal;
+my @age;
+my @second_date;
+my @second_gender;
+my @second_mod;
+my @second_age;
 my @month;
-my @month1;
-my @Mtotal;
-my @hold;
-my $firstYearCount;
-my $secondYearCount;
-#my $baseName = "MortUSA";
-my $baseName = "Test";
 my $suffix = ".txt";
-my $firstFileName;
-#my $secondFileName;
+my $baseName = "Test";
+my $firstSuicideCount = 0;
+my $secondSuicideCount = 0;
 
 #
 #   Check that you have the right number of parameters
 #
-
-    # $fileStart = $ARGV[0];
-    # $firstYear = $ARGV[1];
-    # $secondYear = $ARGV[2];
-    # $testShit = $ARGV[3];
-    $firstYear = $ARGV[0];
-    $secondYear = $ARGV[1];
-
-
-    my $firstYearNum = $firstYear;
-    my $secondyearnum = $secondYear;
-    # $firstFileName = "$firstYearNum"."$baseName"."$suffix";
-   my $secondFileName = "$secondYearNum"."$baseName"."$suffix";
-
-    my $yearCount = $firstYearNum;
-    my $index = 0;
-
-while($firstYearNum <= 5)
+my $firstYear = $ARGV[0];
+my $secondYear = $ARGV[1];
+my $yearDifference = ($secondYear - $firstYear);
+if ($#ARGV != 1 ) 
 {
-  $filenames[$index] = "$firstYearNum"."$baseName"."$suffix";
-  printf "year: ".$filenames[$index]."\n";
-  $firstYearNum++;
-  $index++;
+    print "Usage: readStats.pl <input csv file>\n" or
+        die "Print failure\n";
+    exit;
+} 
+else
+{
+
+    $filename = "$firstYear"."$baseName"."$suffix";
+    $secondFilename = "$secondYear"."$baseName"."$suffix";
 }
 
 #
 #   Open the input file and load the contents into records array
 #
-open my $names_fh, '<', $secondFileName
-or die "Unable to open names file: $fileStart\n";
+
+open my $names_fh, '<', $filename
+or die "Unable to open names file: $filename\n";
+
+open my $secondNames_fh, '<', $secondFilename
+or die "Unable to open names file: $secondFilename\n";
 
 @records = <$names_fh>;
+@secondRecords = <$secondNames_fh>;
 
 close $names_fh or
 die "Unable to close: $ARGV[0]\n";   # Close the input file
 
+close $secondNames_fh or
+die "Unable to close: $ARGV[1]\n";
+
 #
 #   Parse each line and print out the information
 #
-foreach my $name_record ( @records ) {
-    if ( $csv->parse($name_record) ) {
+foreach my $name_record ( @records ) 
+{
+    if ( $csv->parse($name_record) ) 
+    {
         my @master_fields = $csv->fields();
         $record2++;
         $gender[$record2] = $master_fields[4];
         $date[$record2] = $master_fields[1];
-        $mod[$record2] = $master_fields[12];
+        $mod[$record2] = $master_fields[2];
+        $age[$record2] = $master_fields[3];
     } else {
         warn "Line/record could not be parsed: $records[$record_count]\n";
     }
     $record_count++;
 }
 
-foreach my $string (@filenames)
+foreach my $second_name_record ( @secondRecords ) 
 {
-
-    for (my $c = 1; $c <= 12; $c++)
+    if ( $csv->parse($second_name_record) ) 
     {
-        if ($c < 10)
-        {
-            $month[$c] = "0".$c;
-        }
-        if ($c >= 10)
-        {
-            $month[$c] = $c;
-        }
+        my @master_fields = $csv->fields();
+        $record3++;
+        $second_gender[$record3] = $master_fields[4];
+        $second_date[$record3] = $master_fields[1];
+        $second_mod[$record3] = $master_fields[2];
+        $second_age[$record3] = $master_fields[3];
+    } else {
+        warn "Line/record could not be parsed: $records[$record_count]\n";
     }
+    $record_count2++;
+}
 
+for (my $c = 1; $c <= 12; $c++)
+{
+    if ($c < 10)
+    {
+        $month[$c] = "0".$c;
+    }
+    if ($c >= 10)
+    {
+        $month[$c] = $c;
+    }
+}
 
+if ($firstYear > 2002)
+{
     for (my $b = 1; $b <= 12; $b++)
     {
         $count = 0;
         for (my $i = 1; $i < $record2; $i++)
         {
-            if ($mod[$i] eq '2' && $date[$i] eq $month[$b])
+            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
             {
                 $count++;
-               # $firstYearCount++;
+                $firstSuicideCount++;
             }
         }
     }
 }
+else
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record2; $i++)
+        {
+            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
+            {
+                $count++;
+                $firstSuicideCount++;
+            }
+        }
+    }  
+}
 
-#print "Total Suicides: ".$firstYearCount."\n";
+if ($secondYear > 2002)
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record3; $i++)
+        {
+            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '1012' && $second_age[$i] < '1020')
+            {
+                $count++;
+                $secondSuicideCount++;
+            }
+        }
+    }
+}
+else
+{
+    for (my $b = 1; $b <= 12; $b++)
+    {
+        $count = 0;
+        for (my $i = 1; $i < $record2; $i++)
+        {
+            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '1012' && $second_age[$i] < '1020')
+            {
+                $count++;
+                $secondSuicideCount++;
+            }
+        }
+    }  
+}
 
-$yearDifference = $secondYear - $firstYear;
+my $subYearDifference = (1/$yearDifference);
+my $subPercentGrowthRate = ((($secondSuicideCount - $firstSuicideCount)/$firstSuicideCount) * 100);
+my $percentGrowthRate = ($subPercentGrowthRate / $yearDifference);
 
+print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
+print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
 print "Year Difference is ".$yearDifference."\n";
-
-
-
-# for (my $b = 1; $b <= 12; $b++)
-# {
-#     $count = 0;
-#     for (my $i = 1; $i < $record2; $i++)
-#     {
-#         if ($mod[$i] eq '2' && $gender[$i] eq 'F' && $date[$i] eq $month[$b])
-#         {
-#             $count++;
-#         }
-#     }
-#     $hold[$b] = $count;
-#     print "Female,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
-# }
-
-
-# for (my $b = 1; $b <= 12; $b++)
-# {
-#     $count = 0;
-#     for (my $i = 1; $i < $record2; $i++)
-#     {
-#         if ($mod[$i] eq '2' && $gender[$i] eq 'M' && $date[$i] eq $month[$b])
-#         {
-#             $count++;
-#         }
-#     }
-#     $hold[$b] = $count;
-#     print "Male,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
-# }
-
+print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
 
 #
 #   End of Script
