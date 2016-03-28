@@ -21,127 +21,120 @@ use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher
 #
 #      References
 #
-#
 #   Variables to be used
 #
 my $EMPTY = q{};
 my $COMMA = q{,};
 my $LIMIT = 5;
-
 my $filename     = $EMPTY;
-my $manner = $EMPTY;
-my $num = 0;
+my $secondFilename = $EMPTY;
+my $fileStart = $EMPTY;
+my $fileEnd = $EMPTY;
+my $fileInc = $EMPTY;
+my $fileCIS = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
-my @records;
-my $record_count = 0;
-my $record2 = 0;
 my $count;
-my @date;
-my @gender;
-my @mod;
-my @Ftotal;
-my @month;
-my @month1;
-my @Mtotal;
-my @hold;
+my $injury;
+my $mod;
+my $education;
+my $uneducatedCount = 0;
+my $educatedCount = 0;
+my $file_suffix = "MortUSA.txt";
+my $start_year;
+my $end_year;
+my $current_year;
+my $test_flag = 0;
+my $start_stamp;
+my $end_stamp;
+my $record_count;
 
-$month1[1] = "January";
-$month1[2] = "February";
-$month1[3] = "March";
-$month1[4] = "April";
-$month1[5] = "May";
-$month1[6] = "June";
-$month1[7] = "July";
-$month1[8] = "August";
-$month1[9] = "September";
-$month1[10] = "October";
-$month1[11] = "November";
-$month1[12] = "December";
 
-#
-#   Check that you have the right number of parameters
-#
-if ($#ARGV != 2 ) {
-    print "Usage: readStats.pl <input csv file>\n" or
-    die "Print failure\n";
+if($#ARGV < 1)
+{
+    print "Incorrect arguments.  Please use as ./readHomicideAndRace <start year> <end year>\n";
+    die "Argument Error\n";
     exit;
-} else {
-    $filename = $ARGV[0];
-    $num = $ARGV[1];
-    $manner = $ARGV[2];
 }
-
-#
-#   Open the input file and load the contents into records array
-#
-open my $names_fh, '<', $filename
-or die "Unable to open names file: $filename\n";
-
-@records = <$names_fh>;
-
-close $names_fh or
-die "Unable to close: $ARGV[0]\n";   # Close the input file
-
-print qq["Sex","Month","$manner"\n];
-
+else
+{
+    $start_year = $ARGV[0];
+    $end_year   = $ARGV[1];
+    if($#ARGV > 1)
+    {
+        if($ARGV[2] eq 'test')
+        {
+            $test_flag = 1;
+            $file_suffix = "Test.txt";
+        }
+    }
+}
 #
 #   Parse each line and print out the information
 #
-foreach my $name_record ( @records ) {
-    if ( $csv->parse($name_record) ) {
-        my @master_fields = $csv->fields();
-        $record2++;
-        $gender[$record2] = $master_fields[4];
-        $date[$record2] = $master_fields[1];
-        $mod[$record2] = $master_fields[12];
-    } else {
-        warn "Line/record could not be parsed: $records[$record_count]\n";
-    }
-    $record_count++;
-}
-
-for (my $c = 1; $c <= 12; $c++)
+for $current_year ($start_year..$end_year)
 {
-    if ($c < 10)
-    {
-        $month[$c] = "0".$c;
-    }
-    if ($c >= 10)
-    {
-        $month[$c] = $c;
-    }
-}
+    my $filename = $current_year.$file_suffix;
+    my @records;
 
+    open my $year_file, '<', $filename
+        or die "Cannot open file $filename\n";
 
-for (my $b = 1; $b <= 12; $b++)
-{
-    $count = 0;
-    for (my $i = 1; $i < $record2; $i++)
+    @records = <$year_file>;
+    close $year_file;
+
+    foreach my $year_record (@records)
     {
-        if ($mod[$i] eq $num && $gender[$i] eq 'F' && $date[$i] eq $month[$b])
+        if($csv->parse($year_record)) # the line was parsed correctly.
         {
-            $count++;
+            my @master_fields = $csv->fields();
+            $record_count ++;
+
+            if($current_year > 2002)
+            {
+                $education = $master_fields[7];
+                $injury = $master_fields[11];
+                $mod = $master_fields[12];
+            }
+            else
+            {
+                print "wrong year \n";
+            }
+
+            if($education < '13') # if the current person died of a homicide.
+            {
+                $uneducatedCount ++;
+            }
+            else
+            {
+                $educatedCount ++;
+            }
+        }
+        else # there is an unparseable line.
+        {
+            if($test_flag == 1)
+            {
+                warn "Could not parse line $year_record\n";
+            }
         }
     }
-    $hold[$b] = $count;
-    print "Female,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
 }
 
+print "Total Deaths With Low-Education Level: ".$uneducatedCount."\n";
+print "Total Deaths With higher-Education Level: ".$educatedCount."\n";
 
-for (my $b = 1; $b <= 12; $b++)
+if ($uneducatedCount > $educatedCount)
 {
-    $count = 0;
-    for (my $i = 1; $i < $record2; $i++)
-    {
-        if ($mod[$i] eq $num && $gender[$i] eq 'M' && $date[$i] eq $month[$b])
-        {
-            $count++;
-        }
-    }
-    $hold[$b] = $count;
-    print "Male,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
+    my $difference;
+    my $yearGap;
+    $difference = $uneducatedCount - $educatedCount;
+    $yearGap = $end_year - $start_year;
+    print "Therefore lower-education correlates to highter death rates by an average of ".$difference." over ".$yearGap." years \n";
 }
 
+else
+{
+    print "Therefore lower-education doesn't correlates to highter death \n";
+}
 #
 #   End of Script
 #
