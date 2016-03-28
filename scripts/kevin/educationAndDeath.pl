@@ -25,24 +25,19 @@ use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher
 #
 my $EMPTY = q{};
 my $COMMA = q{,};
-my $LIMIT = 5;
 my $filename     = $EMPTY;
-my $secondFilename = $EMPTY;
 my $fileStart = $EMPTY;
 my $fileEnd = $EMPTY;
-my $fileInc = $EMPTY;
-my $fileCIS = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
-my $count;
 my $injury;
-my $mod;
+my $meansDeath;
 my $education;
 my $uneducatedCount = 0;
 my $educatedCount = 0;
 my $file_suffix = "MortUSA.txt";
-my $start_year;
-my $end_year;
-my $current_year;
+my $yearBegin;
+my $yearFinish;
+my $yearCurrent;
 my $test_flag = 0;
 my $start_stamp;
 my $end_stamp;
@@ -53,14 +48,14 @@ my $uneducatedWorkDeath;
 
 if($#ARGV < 1)
 {
-    print "Incorrect arguments.  Please use as ./readHomicideAndRace <start year> <end year>\n";
+    print "Incorrect arguments.  Please use as ./educationAndDeath <start year> <end year>\n";
     die "Argument Error\n";
     exit;
 }
 else
 {
-    $start_year = $ARGV[0];
-    $end_year   = $ARGV[1];
+    $yearBegin = $ARGV[0];
+    $yearFinish   = $ARGV[1];
     if($#ARGV > 1)
     {
         if($ARGV[2] eq 'test')
@@ -73,25 +68,24 @@ else
 #
 #   Parse each line and print out the information
 #
-for $current_year ($start_year..$end_year)
+for $yearCurrent ($yearBegin..$yearFinish)
 {
-    my $filename = $current_year.$file_suffix;
+    my $filename = $yearCurrent.$file_suffix;
     my @records;
 
-    open my $year_file, '<', $filename
+    open my $textFile, '<', $filename
         or die "Cannot open file $filename\n";
+    @records = <$textFile>;
+    close $textFile;
 
-    @records = <$year_file>;
-    close $year_file;
-
-    foreach my $year_record (@records)
+    foreach my $dataRecords (@records)
     {
-        if($csv->parse($year_record)) # the line was parsed correctly.
+        if($csv->parse($dataRecords)) # the line was parsed correctly.
         {
             my @master_fields = $csv->fields();
             $record_count ++;
 
-            if ($current_year eq 2003)
+            if ($yearCurrent eq 2003)
             {
                 $injury = $master_fields[11];
                 $mod = $master_fields[12];
@@ -105,19 +99,18 @@ for $current_year ($start_year..$end_year)
                 $education = $master_fields[8];
                 }
             }
-            elsif($current_year > 2003)
+            elsif($yearCurrent > 2003)
             {
                 $education = $master_fields[7];
                 $injury = $master_fields[11];
                 $mod = $master_fields[12];
             }
-            elsif ($current_year < 2003)
+            elsif ($yearCurrent < 2003)
             {
                 $education = $master_fields[7];
                 $injury = $master_fields[10];
                 $mod = $master_fields[11];
             }
-
             if (defined $education)
             {
                 if($education le '13')
@@ -143,11 +136,11 @@ for $current_year ($start_year..$end_year)
                 }
             }
         }
-        else # there is an unparseable line.
+        else
         {
             if($test_flag == 1)
             {
-                warn "Could not parse line $year_record\n";
+                warn "Could not parse line $dataRecords\n";
             }
         }
     }
@@ -163,12 +156,12 @@ if ($uneducatedCount > $educatedCount)
     my $difference;
     my $yearGap;
     $difference = $uneducatedCount - $educatedCount;
-    $yearGap = $end_year - $start_year;
-    print "Therefore lower-education correlates to highter death rates by an average of ".$difference." over ".$yearGap." years \n";
+    $yearGap = $yearFinish - $yearBegin;
+    print "Therefore lower education correlates to highter death rates by an average of ".$difference." over ".$yearGap." years.\n";
 }
 else
 {
-    print "Therefore lower-education doesn't correlate to highter death \n";
+    print "Therefore lower education doesn't correlate to highter death.\n";
 }
 #
 #   End of Script
