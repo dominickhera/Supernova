@@ -21,6 +21,7 @@ my $fileEnd = $EMPTY;
 my $fileInc = $EMPTY;
 my $fileCIS = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
+my $startTime = localtime;
 my @records;
 my @secondRecords;
 my $record_count = 0;
@@ -41,6 +42,8 @@ my $suffix = ".txt";
 my $baseName = "Test";
 my $firstSuicideCount = 0;
 my $secondSuicideCount = 0;
+
+print "Script started at ".$time."\n";
 
 #
 #   Check that you have the right number of parameters
@@ -78,7 +81,7 @@ close $names_fh or
 die "Unable to close: $ARGV[0]\n";   # Close the input file
 
 close $secondNames_fh or
-die "Unable to close: $ARGV[1]\n";
+die "Unable to close: $ARGV[1]\n";  
 
 #
 #   Parse each line and print out the information
@@ -149,7 +152,7 @@ else
         $count = 0;
         for (my $i = 1; $i < $record2; $i++)
         {
-            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '1012' && $age[$i] < '1020')
+            if ($mod[$i] eq '2' && $date[$i] eq $month[$b] && $age[$i] > '012' && $age[$i] < '020')
             {
                 $count++;
                 $firstSuicideCount++;
@@ -180,7 +183,7 @@ else
         $count = 0;
         for (my $i = 1; $i < $record2; $i++)
         {
-            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '1012' && $second_age[$i] < '1020')
+            if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '012' && $second_age[$i] < '020')
             {
                 $count++;
                 $secondSuicideCount++;
@@ -192,7 +195,9 @@ else
 my $subYearDifference = (1/$yearDifference);
 my $subPercentGrowthRate = ((($secondSuicideCount - $firstSuicideCount)/$firstSuicideCount) * 100);
 my $percentGrowthRate = ($subPercentGrowthRate / $yearDifference);
+my $endTime = localtime;
 
+print "Script finished at ".$endTime."\n";
 print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
 print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
 print "Year Difference is ".$yearDifference."\n";
