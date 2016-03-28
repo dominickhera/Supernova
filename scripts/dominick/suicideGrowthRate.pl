@@ -36,28 +36,11 @@ my @second_date;
 my @second_gender;
 my @second_mod;
 my @second_age;
-my @Ftotal;
 my @month;
-my @month1;
-my @Mtotal;
-my @hold;
 my $suffix = ".txt";
 my $baseName = "Test";
 my $firstSuicideCount = 0;
 my $secondSuicideCount = 0;
-
-# $month1[1] = "January";
-# $month1[2] = "February";
-# $month1[3] = "March";
-# $month1[4] = "April";
-# $month1[5] = "May";
-# $month1[6] = "June";
-# $month1[7] = "July";
-# $month1[8] = "August";
-# $month1[9] = "September";
-# $month1[10] = "October";
-# $month1[11] = "November";
-# $month1[12] = "December";
 
 #
 #   Check that you have the right number of parameters
@@ -65,23 +48,23 @@ my $secondSuicideCount = 0;
 my $firstYear = $ARGV[0];
 my $secondYear = $ARGV[1];
 my $yearDifference = ($secondYear - $firstYear);
-if ($#ARGV != 1 ) {
+if ($#ARGV != 1 ) 
+{
     print "Usage: readStats.pl <input csv file>\n" or
         die "Print failure\n";
     exit;
-} else {
-# my $firstYear = $ARGV[0];
-# my $secondYear = $ARGV[1];
+} 
+else
+{
 
     $filename = "$firstYear"."$baseName"."$suffix";
     $secondFilename = "$secondYear"."$baseName"."$suffix";
-
-#$filename = $ARGV[0];
 }
 
 #
 #   Open the input file and load the contents into records array
 #
+
 open my $names_fh, '<', $filename
 or die "Unable to open names file: $filename\n";
 
@@ -91,13 +74,11 @@ or die "Unable to open names file: $secondFilename\n";
 @records = <$names_fh>;
 @secondRecords = <$secondNames_fh>;
 
-
 close $names_fh or
 die "Unable to close: $ARGV[0]\n";   # Close the input file
 
 close $secondNames_fh or
 die "Unable to close: $ARGV[1]\n";
-
 
 #
 #   Parse each line and print out the information
@@ -216,36 +197,6 @@ print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
 print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
 print "Year Difference is ".$yearDifference."\n";
 print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
-
-# for (my $b = 1; $b <= 12; $b++)
-# {
-#     $count = 0;
-#     for (my $i = 1; $i < $record2; $i++)
-#     {
-#         if ($mod[$i] eq '2' && $gender[$i] eq 'F' && $date[$i] eq $month[$b])
-#         {
-#             $count++;
-#         }
-#     }
-#     $hold[$b] = $count;
-#     print "Female,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
-# }
-
-
-# for (my $b = 1; $b <= 12; $b++)
-# {
-#     $count = 0;
-#     for (my $i = 1; $i < $record2; $i++)
-#     {
-#         if ($mod[$i] eq '2' && $gender[$i] eq 'M' && $date[$i] eq $month[$b])
-#         {
-#             $count++;
-#         }
-#     }
-#     $hold[$b] = $count;
-#     print "Male,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
-# }
-
 
 #
 #   End of Script

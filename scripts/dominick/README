@@ -1,9 +1,21 @@
-Suicide Growth Rate Script
-=========================
+===========================
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+CIS*2250_W16
+===========================
 
+Script:
+	suicideGrowthRate.pl
 
-Script requires two years in which it will find the growth rate of the suicide statistic in the teenager age group (13-19)
+Description:
+	The script reads from the two inputted death files from the inputted range and finds the growth rate percentage over time of suicides by teenagers aged 13-19 between the two years.
 
-example command: perl suicideGrowthRate.pl 2003 2014
+Usage:
+	./perl suicideGrowthRate.pl <start year> <end year>
 
-
+Return:
+	Total Teen Suicides in <Start Year>: <Start Year Suicide Count>
+	Total Teen Suicides in <End Year>: <End Year Suicide Count>
+	Year Difference is <Year Difference Between Start And End Year>
+	The growth rate of suicides between <Start Year> and <End Year> is <Growth Rate Percentage>
