@@ -17,7 +17,8 @@ use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher
 #         containing death stats for the USA for a particular year
 #
 #      Commandline Parameters: 1
-#         $ARGV[0] = name of the input file
+#         $ARGV[0] = year to start reading textfiles for
+#         $ARGV[1] = year to stop reading textfiles for
 #
 #      References
 #
@@ -42,11 +43,11 @@ my $test_flag = 0;
 my $start_stamp;
 my $end_stamp;
 my $record_count;
-my $educatedWorkDeath;
-my $uneducatedWorkDeath;
+my $educatedWorkDeath = 0;
+my $uneducatedWorkDeath = 0;
 
 
-if($#ARGV < 1)
+if($#ARGV < 1) #Manage the number of arguments
 {
     print "Incorrect arguments.  Please use as ./educationAndDeath <start year> <end year>\n";
     die "Argument Error\n";
@@ -58,7 +59,7 @@ else
     $yearFinish   = $ARGV[1];
     if($#ARGV > 1)
     {
-        if($ARGV[2] eq 'test')
+        if($ARGV[2] eq 'test') #Use test cases right now to save time
         {
             $test_flag = 1;
             $file_suffix = "Test.txt";
@@ -68,7 +69,7 @@ else
 #
 #   Parse each line and print out the information
 #
-for $yearCurrent ($yearBegin..$yearFinish)
+for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
 {
     my $filename = $yearCurrent.$file_suffix;
     my @records;
@@ -78,61 +79,131 @@ for $yearCurrent ($yearBegin..$yearFinish)
     @records = <$textFile>;
     close $textFile;
 
-    foreach my $dataRecords (@records)
+    foreach my $dataRecords (@records) #parsing
     {
-        if($csv->parse($dataRecords)) # the line was parsed correctly.
+        if($csv->parse($dataRecords)) #if line is parsed properly
         {
             my @master_fields = $csv->fields();
             $record_count ++;
 
-            if ($yearCurrent eq 2003)
+            if ($yearCurrent eq 2003) #2003 is a weird year for education as fields keep swapping
             {
                 $injury = $master_fields[11];
-                $mod = $master_fields[12];
+                $meansDeath = $master_fields[12];
                 $education = $master_fields[7];
-                if (defined $education)
+                if (defined $education) #Checks so that the variable has a defined value
                 {
-                    #does nothing if it this field is populated else it will look in anohter field
+                    if($education le '13') #If education is below post-secondary
+                    {
+                        $uneducatedCount ++;
+                        if (defined $injury)
+                        {
+                            if ($injury eq 'Y')
+                            {
+                                $uneducatedWorkDeath ++;
+                                $educatedWorkDeath ++;
+                            }
+                            else
+                            {
+                                $educatedWorkDeath ++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $educatedCount ++;
+                        $educatedWorkDeath ++;
+                    }
                 }
                 else
                 {
-                $education = $master_fields[8];
+                    $education = $master_fields[8];
+                    if (defined $education) #Checks so that the variable has a defined value
+                    {
+                        if($education le '4') #If education is below post-secondary
+                        {
+                            $uneducatedCount ++;
+                            if (defined $injury)
+                            {
+                                if ($injury eq 'Y')
+                                {
+                                    $uneducatedWorkDeath ++;
+                                    $educatedWorkDeath ++;
+                                }
+                                else
+                                {
+                                    $educatedWorkDeath ++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $educatedCount ++;
+                            $educatedWorkDeath ++;
+                        }
+                    }
                 }
             }
             elsif($yearCurrent > 2003)
             {
                 $education = $master_fields[7];
                 $injury = $master_fields[11];
-                $mod = $master_fields[12];
+                $meansDeath = $master_fields[12];
+
+                if (defined $education)
+                {
+                    if($education le '4') #If education is below post-secondary
+                    {
+                        $uneducatedCount ++;
+                        if (defined $injury)
+                        {
+                            if ($injury eq 'Y')
+                            {
+                                $uneducatedWorkDeath ++;
+                                $educatedWorkDeath ++;
+                            }
+                            else
+                            {
+                                $educatedWorkDeath ++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $educatedCount ++;
+                        $educatedWorkDeath ++;
+                    }
+                }
             }
             elsif ($yearCurrent < 2003)
             {
                 $education = $master_fields[7];
                 $injury = $master_fields[10];
-                $mod = $master_fields[11];
-            }
-            if (defined $education)
-            {
-                if($education le '13')
+                $meansDeath = $master_fields[11];
+
+                if (defined $education)
                 {
-                    $uneducatedCount ++;
-                    if (defined $injury)
+                    if($education le '13') #If education is below post-secondary
                     {
-                        if ($injury eq 'Y')
+                        $uneducatedCount ++;
+                        if (defined $injury)
                         {
-                            $uneducatedWorkDeath ++;
-                            $educatedWorkDeath ++;
-                        }
-                        else
-                        {
-                            $educatedWorkDeath ++;
+                            if ($injury eq 'Y')
+                            {
+                                $uneducatedWorkDeath ++;
+                                $educatedWorkDeath ++;
+                            }
+                            else
+                            {
+                                $educatedWorkDeath ++;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    $educatedCount ++;
-                    $educatedWorkDeath ++;
+                    else
+                    {
+                        $educatedCount ++;
+                        $educatedWorkDeath ++;
+                    }
                 }
             }
         }
