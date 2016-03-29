@@ -19,12 +19,11 @@ my @records;
 my $record_count = 0;
 
 my @race_manner = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-my @manners = ('Not Specified', 'Accident', 'Suicide', 'Homicide', 'Pending Investigation', 'Could not determine', 'Self-Inflicted', 'Natural');
 my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanese', 'Hawaiian', 'Filipino', 'Asian-Indian', 'Korean', 'Samoan', 'Vietnamese', 'Guamanian', 'Other Asian/Pacific Islander'); 
 my $homicides = 0;
 
 
-my $file_suffix = "MortUSA.txt";
+my $file_suffix = "dat.txt";
 
 my $start_year;
 my $end_year;
@@ -52,20 +51,14 @@ else
 {
     $start_year = $ARGV[0];
     $end_year   = $ARGV[1];
-    if($#ARGV > 1)
+    if($#ARGV == 2)
     {
-        if($ARGV[2] eq 'test')
-        {
-            $test_flag = 1;
-            $time_flag = 1;
-            $file_suffix = "Test.txt"; 
-        }
         if($ARGV[2] eq 'time')
         {
             $time_flag = 1;
         }
-        
     }
+
 }
 
 #FOR 2003+
@@ -97,27 +90,17 @@ for $current_year ($start_year..$end_year)
     open my $year_file, '<', $fname
         or die "Cannot open file $fname\n";
 
-    
+
     while($record = <$year_file>)
     {
-        if($csv->parse($record)) # the line was parsed correctly.
+        if($record =~ /[0-9]+:[0-9]/) # the line was parsed correctly.
         {
-            my @csv_fields = $csv->fields();
-            
             my $record_race;
             my $record_manner;
-
             $record_count ++;
-            
-            $record_race = $csv_fields[5];
-            if($current_year > 2002)
-            {
-                $record_manner = $csv_fields[12];
-            }
-            else
-            {
-                $record_manner = $csv_fields[11];
-            }
+
+            $record_race = substr($record,0,2,);
+            $record_manner = substr($record,3,1);
 
             if(defined $record_manner)
             {
@@ -147,7 +130,7 @@ if($test_flag == 1)
     print "Here are the homicides over the last ".($end_year - $start_year)." years.\n";
 }
 
-for my $i (0..(scalar(@race_manner) - 1))
+for my $i (0..13)
 {
     if($test_flag == 1)
     {
