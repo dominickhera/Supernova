@@ -39,7 +39,7 @@ my @second_mod;
 my @second_age;
 my @month;
 my $suffix = ".txt";
-my $baseName = "Test";
+my $baseName = "dat";
 my $firstSuicideCount = 0;
 my $secondSuicideCount = 0;
 
@@ -92,10 +92,10 @@ foreach my $name_record ( @records )
     {
         my @master_fields = $csv->fields();
         $record2++;
-        $gender[$record2] = $master_fields[4];
-        $date[$record2] = $master_fields[1];
-        $mod[$record2] = $master_fields[2];
-        $age[$record2] = $master_fields[3];
+        $date[$record2] = $master_fields[0];
+        $mod[$record2] = $master_fields[1];
+        $age[$record2] = $master_fields[2];
+        $gender[$record2] = $master_fields[3];
     } else {
         warn "Line/record could not be parsed: $records[$record_count]\n";
     }
@@ -108,10 +108,10 @@ foreach my $second_name_record ( @secondRecords )
     {
         my @master_fields = $csv->fields();
         $record3++;
-        $second_gender[$record3] = $master_fields[4];
-        $second_date[$record3] = $master_fields[1];
-        $second_mod[$record3] = $master_fields[2];
-        $second_age[$record3] = $master_fields[3];
+        $second_date[$record3] = $master_fields[0];
+        $second_mod[$record3] = $master_fields[1];
+        $second_age[$record3] = $master_fields[2];
+        $second_gender[$record3] = $master_fields[3];
     } else {
         warn "Line/record could not be parsed: $records[$record_count]\n";
     }
@@ -183,11 +183,14 @@ else
         $count = 0;
         for (my $i = 1; $i < $record2; $i++)
         {
+            if(defined($second_mod[$i]))
+            {
             if ($second_mod[$i] eq '2' && $second_date[$i] eq $month[$b] && $second_age[$i] > '012' && $second_age[$i] < '020')
             {
                 $count++;
                 $secondSuicideCount++;
             }
+        }
         }
     }  
 }
@@ -200,7 +203,7 @@ my $endTime = localtime;
 print "Script finished at ".$endTime."\n";
 print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
 print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
-print "Year Difference is ".$yearDifference."\n";
+# print "Year Difference is ".$yearDifference."\n";
 print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
 
 #
