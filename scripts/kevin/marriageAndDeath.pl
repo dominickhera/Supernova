@@ -140,12 +140,12 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
     }
 }
 
-print "Married couples that died in an accident: ".$accident."\n";
-print "Married couples that died from suicide: ".$suicide."\n";
-print "Married couples that died in a homicide: ".$homicide."\n";
-print "Married couples that died in undetermined or unknown circumstances: ".$notSure."\n";
-print "Married couples that died from self-inflicted wounds: ".$Self_Inflicted."\n";
-print "Married couples that died naturally: ".$natural."\n";
+print "Married individuals that died in an accident: ".$accident."\n";
+print "Married individuals that died from suicide: ".$suicide."\n";
+print "Married individuals that died in a homicide: ".$homicide."\n";
+print "Married individuals that died in undetermined or unknown circumstances: ".$notSure."\n";
+print "Married individuals that died from self-inflicted wounds: ".$Self_Inflicted."\n";
+print "Married individuals that died naturally: ".$natural."\n";
 
 #
 #   End of Script
