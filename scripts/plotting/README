@@ -1,0 +1,29 @@
+***************************
+Author: Giuliano Sovernigo
+0948924           gsoverni
+April 2, 2016
+***************************
+
+Contents:
+    -plot.pl
+        - a plotting script with a single sub in it.
+
+Usage:
+    To plot contents with this script, you must first 
+    do the following things:
+        1) drag a copy of plot.pl into your directory (later will be in src)
+        2) add 'require "./plot.pl";' to the top of your script.
+    To call the sub itself, you must call it like this:
+        'plot_data($xlabel, \@xdata, $ylabel, \@ydata, $outputPDFpath);'
+        
+        !!!IMPORTANT!!!
+        DO NOT EXCLUDE THE '\' FROM BEFORE THE 
+        ARRAY ARGUMENT.  IT SPECIFIES THAT YOU
+        WANT TO SEND IN THE ARRAY, NOT AN ARRAY
+        OF DIFFERENT ARGUMENTS.
+    Check the output path you gave to find the pdf
+
+Problems:
+    Ensure your values are initialized.
+    Ensure xdata and ydata arrays are the same length.
+        

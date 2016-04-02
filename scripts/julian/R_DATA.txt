@@ -1,0 +1,15 @@
+Race,Homicides
+Other,0
+White,147922
+Black,134982
+American-Indian,4248
+Chinese,838
+Japanese,213
+Hawaiian,98
+Filipino,699
+Asian-Indian,0
+Korean,0
+Samoan,0
+Vietnamese,0
+Guamanian,0
+Other Asian/Pacific Islander,0
