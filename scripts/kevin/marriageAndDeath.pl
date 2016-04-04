@@ -85,7 +85,7 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
             my @master_fields = $csv->fields();
             $record_count ++;
 
-            if($yearCurrent > 2003)
+            if($yearCurrent > 2002)
             {
                 $maritalStatus = $master_fields[6];
                 $meansDeath = $master_fields[12];
