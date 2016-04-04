@@ -19,3 +19,20 @@ Return:
 	Total Teen Suicides in <End Year>: <End Year Suicide Count>
 	Year Difference is <Year Difference Between Start And End Year>
 	The growth rate of suicides between <Start Year> and <End Year> is <Growth Rate Percentage>
+
+===================================================================================================
+
+
+Script:
+	birthweight.pl
+
+Description:
+	The script reads from the one inputted textfile and finds the highest,lowest and average birth weight for every month in that year
+
+Usage:
+	./perl birthweight.pl <year>
+
+Return:
+	Highest weight for <Month> is <Highest Weight>
+	Lowest weight for <Month> is <Lowest Weight>
+	Average weight for <Month> is <Average Weight>
