@@ -18,6 +18,10 @@ my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my @records;
 my $record_count = 0;
 my $record2 = 0;
+my $highWeightCount = 0;
+my $lowWeightCount = 0;
+my $medianWeightCount = 0;
+my $totalWeightCount = 0;
 my $count;
 my @date;
 my @gender;
@@ -58,9 +62,9 @@ foreach my $name_record ( @records )
         my @master_fields = $csv->fields();
         $record2++;
         $date[$record2] = $master_fields[0];
-        $mod[$record2] = $master_fields[1];
-        $age[$record2] = $master_fields[2];
-        $gender[$record2] = $master_fields[3];
+        $weight[$record2] = $master_fields[1];
+        # $age[$record2] = $master_fields[2];
+        # $gender[$record2] = $master_fields[3];
     } else {
         warn "Line/record could not be parsed: $records[$record_count]\n";
     }
@@ -85,18 +89,23 @@ for (my $b = 1; $b <= 12; $b++)
     $count = 0;
     for (my $i = 1; $i < $record2; $i++)
     {
-        if ($mod[$i] eq '2' && $gender[$i] eq 'F' && $date[$i] eq $month[$b])
+        if ($date[$i] eq $month[$b])
         {
+        	if ($weight[$i] > $highWeightCount)
+            {
+            	$highWeightCount = $weight[$i];
+            	$totalWeightCount += $weight[i];
+            }
+           	else if($weight[$i] < $lowWeightCount)
+           	{
+           		$lowWeightCount = $weight[$i];
+           		$totalWeightCount += $weight[$i];
+           	}
+
+           	$totalWeightCount += $weight[$i];
             $count++;
         }
     }
     $hold[$b] = $count;
-    print "Female,".$month[$b]."/".$month1[$b].",".$hold[$b]."\n";
 }
-
-
-
-
-
-
 
