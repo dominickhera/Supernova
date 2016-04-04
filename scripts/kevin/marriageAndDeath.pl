@@ -85,16 +85,9 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
             my @master_fields = $csv->fields();
             $record_count ++;
 
-            if($yearCurrent > 2002)
-            {
-                $maritalStatus = $master_fields[6];
-                $meansDeath = $master_fields[12];
-            }
-            elsif ($yearCurrent < 2003)
-            {
-                $maritalStatus = $master_fields[7];
-                $meansDeath = $master_fields[11];
-            }
+            $maritalStatus = $master_fields[0];
+            $meansDeath = $master_fields[1];
+
             if (defined $maritalStatus)
             {
                 if($maritalStatus eq 'M') #If maritalStatus is below post-secondary

@@ -35,7 +35,7 @@ my $meansDeath;
 my $education;
 my $uneducatedCount = 0;
 my $educatedCount = 0;
-my $suffix = "MortUSA.txt";
+my $suffix = "EducationData.txt";
 my $yearBegin;
 my $yearFinish;
 my $yearCurrent;
@@ -84,11 +84,12 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
             my @master_fields = $csv->fields();
             $record_count ++;
 
+            $injury = $master_fields[2];
+            $meansDeath = $master_fields[1];
+            $education = $master_fields[0];
+
             if ($yearCurrent eq 2003) #2003 is a weird year for education as fields keep swapping
             {
-                $injury = $master_fields[11];
-                $meansDeath = $master_fields[12];
-                $education = $master_fields[7];
                 if (defined $education) #Checks so that the variable has a defined value
                 {
                     if($education le '13') #If education is below post-secondary
@@ -115,7 +116,6 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
                 }
                 else
                 {
-                    $education = $master_fields[8];
                     if (defined $education) #Checks so that the variable has a defined value
                     {
                         if($education le '4') #If education is below post-secondary
@@ -144,10 +144,6 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
             }
             elsif($yearCurrent > 2003)
             {
-                $education = $master_fields[7];
-                $injury = $master_fields[11];
-                $meansDeath = $master_fields[12];
-
                 if (defined $education)
                 {
                     if($education le '4') #If education is below post-secondary
@@ -175,10 +171,6 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
             }
             elsif ($yearCurrent < 2003)
             {
-                $education = $master_fields[7];
-                $injury = $master_fields[10];
-                $meansDeath = $master_fields[11];
-
                 if (defined $education)
                 {
                     if($education le '13') #If education is below post-secondary
