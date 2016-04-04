@@ -10,6 +10,10 @@ my $EMPTY = q{};
 my $COMMA = q{,};
 
 #
+# Author: Giuliano Sovernigo
+# gsoverni@mail.uoguelph.ca
+#
+# This script produces data
 #
 #
 my $RACE_POS = 5; # this is the index that race is stored at.
@@ -129,29 +133,18 @@ for $current_year ($start_year..$end_year)
 }
 
 
-if($test_flag == 1)
-{
-    print "Here are the homicides over the last ".($end_year - $start_year)." years.\n";
-}
+print "Here are the homicides over the last ".($end_year - $start_year)." years.\n";
 
 
 for my $i (0..13)
 {
-    if($test_flag == 1)
-    {
         print $races[$i].": ".$race_manner[$i]." homicides.\n";
-    }
-    else
-    {
-        print $i.":".$race_manner[$i]."\n";
-    }
 }
+print "In total, there were ".$homicides." homicides.\n";
+
+print "Producing a pdf graph...\n";
 plot_data("Race",\@races,"Homicides",\@race_manner,"Race Homicide.pdf");
 
-if($test_flag == 1)
-{
-    print "In total, there were ".$homicides." homicides.\n"
-}
 
 $end_stamp = localtime();
 if($time_flag == 1)
