@@ -13,9 +13,22 @@ my $COMMA = q{,};
 # Author: Giuliano Sovernigo
 # gsoverni@mail.uoguelph.ca
 #
-# This script produces data
+# This script produces data related to the homicide rates
+# of races as defined by the CDC in the United States.  The
+# data is outputted as specified below, and then compiled
+# and inserted into a pdf graph.
 #
+#   ARGS:
+#       ARGV[0]: The start year that will be used.
+#       ARGV[1]: The end year that will be used.
+#       ARGV[2]: The path to the data files.
 #
+#   Errors:
+#       pass in the correct number of arguments, or the 
+#       script will complain and exit.
+#
+
+
 my $RACE_POS = 5; # this is the index that race is stored at.
 my $MANNER_POS = 12; # this is the index that manner of death is stored at.
 
