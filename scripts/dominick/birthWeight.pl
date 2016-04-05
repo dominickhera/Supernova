@@ -7,6 +7,8 @@ use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
 # use Term::ProgressBar;
+# use Statistics::R;
+# require "./plot.pl";
 
 
 my $EMPTY = q{};
@@ -134,8 +136,8 @@ for (my $b = 1; $b <= 12; $b++)
     $finalLow = ($lowWeightCount * $poundConversion);
     $finalAverage = ($medianWeightCount * $poundConversion);
     print "Highest Weight for ".$month1[$b].": ".$finalHigh." lbs\n";
-    print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n";
     print "Lowest Weight for ".$month1[$b].": ".$finalLow." lbs\n\n";
+    print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n";
     $highWeightCount = 0;
     $lowWeightCount = 0;
     $personCount = 0;
