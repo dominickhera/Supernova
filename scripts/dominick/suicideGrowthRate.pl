@@ -38,6 +38,7 @@ my @second_gender;
 my @second_mod;
 my @second_age;
 my @month;
+my $path = "./assets/";
 my $suffix = ".txt";
 my $baseName = "dat";
 my $firstSuicideCount = 0;
@@ -60,8 +61,8 @@ if ($#ARGV != 1 )
 else
 {
 
-    $filename = "$firstYear"."$baseName"."$suffix";
-    $secondFilename = "$secondYear"."$baseName"."$suffix";
+    $filename = "$path.$firstYear"."$baseName"."$suffix";
+    $secondFilename = "$path.$secondYear"."$baseName"."$suffix";
 }
 
 #

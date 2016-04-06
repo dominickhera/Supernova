@@ -40,8 +40,9 @@ my @month;
 my @month1;
 my @Mtotal;
 my @hold;
+my $path = "./assets/";
 my $suffix = ".txt";
-my $baseName = "birthTest";
+my $baseName = "dom";
 
 $month1[1] = "January";
 $month1[2] = "February";
@@ -68,7 +69,7 @@ if ($#ARGV != 0 )
 } 
 else
 {
-    $filename = "$birthYear"."$baseName"."$suffix";
+    $filename = "$path.$birthYear"."$baseName"."$suffix";
 }
 
 open my $names_fh, '<', $filename
