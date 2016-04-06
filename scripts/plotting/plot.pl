@@ -52,6 +52,11 @@ sub plot_data
     $R->run(qq`ggplot(data, aes(x=$x_label, y=$y_label, colour=1, group=1)) + theme(axis.text.x=element_text(angle=45, hjust = 1)) + geom_line() + geom_point(size = 2)  + ggtitle("Plot of $x_label vs. $y_label") + ylab("$y_label")`);
 
     $R->run(q`dev.off()`);
+
+    if(-e $perm_fname)
+    {
+        system("rm $perm_fname");
+    }
     $R->stop();
 }
 

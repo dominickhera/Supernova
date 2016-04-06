@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-require "./plot.pl";
+require "./src/plot.pl";
 use strict;
 use warnings;
 use version;    our $VERSION = qv('5.16.0');
@@ -155,7 +155,7 @@ for my $i (0..13)
 }
 print "In total, there were ".$homicides." homicides.\n";
 
-print "Producing a pdf graph...\n";
+print "\nProducing a pdf graph...\n\n";
 plot_data("Race",\@races,"Homicides",\@race_manner,"Race Homicide.pdf");
 
 
