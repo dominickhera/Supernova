@@ -44,7 +44,8 @@ my @Mtotal;
 my @hold;
 # my $path = "./assets/";
 my $suffix = ".txt";
-my $baseName = "dom";
+my $baseName = "birthTest";
+my $outputPDFpath = "testPDF";
 
 $month1[1] = "January";
 $month1[2] = "February";
@@ -158,6 +159,8 @@ for (my $b = 1; $b <= 12; $b++)
     # print "Highest Weight for ".$month1[$b].": ".$finalHigh." lbs\n";
     # print "Lowest Weight for ".$month1[$b].": ".$finalLow." lbs\n";
     print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n\n";
+
+    plot_data("Month", \@month, "Amount of High Births", \$highBabyCount, "Birth Weight.pdf");
     $finalHigh = 0;
     $finalLow = 0;
     $finalAverage = 0;
