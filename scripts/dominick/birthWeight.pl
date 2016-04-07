@@ -7,8 +7,8 @@ use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
 # use Term::ProgressBar;
-# use Statistics::R;
-# require "./plot.pl";
+ use Statistics::R;
+ require "./plot.pl";
 
 
 my $EMPTY = q{};
@@ -25,6 +25,8 @@ my $highWeightCount = 0;
 my $lowWeightCount = 0;
 my $medianWeightCount = 0;
 my $totalWeightCount = 0;
+my $highBabyCount = 0;
+my $lowBabyCount = 0;
 my $finalHigh = 0;
 my $finalLow = 0;
 my $finalAverage = 0;
@@ -40,7 +42,7 @@ my @month;
 my @month1;
 my @Mtotal;
 my @hold;
-my $path = "./assets/";
+# my $path = "./assets/";
 my $suffix = ".txt";
 my $baseName = "dom";
 
@@ -69,7 +71,7 @@ if ($#ARGV != 0 )
 } 
 else
 {
-    $filename = "$path.$birthYear"."$baseName"."$suffix";
+    $filename = "$birthYear"."$baseName"."$suffix";
 }
 
 open my $names_fh, '<', $filename
@@ -109,42 +111,64 @@ for (my $c = 1; $c <= 12; $c++)
 for (my $b = 1; $b <= 12; $b++)
 {
     $count = 0;
-    $lowWeightCount = $weight[1];
+# $lowWeightCount = $weight[1];
+    print "starting low weight ".$lowWeightCount."\n";
     for (my $i = 1; $i < $record2; $i++)
     {
         if ($date[$i] eq $month[$b])
         {
             $personCount++;
+
             if ($weight[$i] > $highWeightCount)
             {
-
+                if($lowWeightCount == 0)
+                {
+                    $lowWeightCount = $weight[$i];
+                }
+                $highBabyCount = 0;
                 $highWeightCount = $weight[$i];
+                # print "new highest weight ".$highWeightCount."\n";
                 $totalWeightCount += $weight[$i];
             }
             elsif($weight[$i] < $lowWeightCount)
             {
+                $lowBabyCount = 0;
                 $lowWeightCount = $weight[$i];
+                # print "new lowest weight ".$lowWeightCount."\n";
                 $totalWeightCount += $weight[$i];
             }
-
+            elsif($weight[$i] == $highWeightCount)
+            {
+                $highBabyCount++;
+            }
+            elsif($weight[$i] == $lowWeightCount)
+            {
+                $lowBabyCount++;
+            }
             $totalWeightCount += $weight[$i];
             $count++;
         }
-
     }
     $medianWeightCount = ($totalWeightCount / $personCount);
     $finalHigh = ($highWeightCount * $poundConversion);
     $finalLow = ($lowWeightCount * $poundConversion);
     $finalAverage = ($medianWeightCount * $poundConversion);
-    print "Highest Weight for ".$month1[$b].": ".$finalHigh." lbs\n";
-    print "Lowest Weight for ".$month1[$b].": ".$finalLow." lbs\n\n";
-    print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n";
+    print $highBabyCount." babies were born with the max weight of ".$finalHigh." lbs. in ".$month1[$b]."\n";
+    print $lowBabyCount." babies were born with the max weight of ".$finalLow." lbs. in ".$month1[$b]."\n";
+    # print "Highest Weight for ".$month1[$b].": ".$finalHigh." lbs\n";
+    # print "Lowest Weight for ".$month1[$b].": ".$finalLow." lbs\n";
+    print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n\n";
+    $finalHigh = 0;
+    $finalLow = 0;
+    $finalAverage = 0;
     $highWeightCount = 0;
     $lowWeightCount = 0;
     $personCount = 0;
     $medianWeightCount = 0;
     $personCount = 0;
     $totalWeightCount = 0;
+    $lowBabyCount = 0;
+    $highBabyCount = 0;
     $hold[$b] = $count;
 }
 
