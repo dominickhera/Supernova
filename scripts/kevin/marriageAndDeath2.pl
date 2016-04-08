@@ -6,7 +6,6 @@ use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-use Math::Round; #Math Module to round numbers
 #
 #      Author(s): Kevin Pirabaharan (0946212)
 #      kpirabah@mail.uoguelph.ca
@@ -147,15 +146,15 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
 }
 # Find Percentages of each manner of death
 $accidentPercent = (($accident / $deathTotal) * 100);
-$accidentPercent = nearest (.01,$accidentPercent);
+$accidentPercent = sprintf("%.2f",$accidentPercent);
 $selfHarmOrSuicidePercent = (($selfHarmOrSuicide / $deathTotal) * 100);
-$selfHarmOrSuicidePercent = nearest (.01,$selfHarmOrSuicidePercent);
+$selfHarmOrSuicidePercent = sprintf("%.2f",$selfHarmOrSuicidePercent);
 $homicidePercent = (($homicide / $deathTotal) * 100);
-$homicidePercent = nearest (.01,$homicidePercent);
+$homicidePercent = sprintf("%.2f",$homicidePercent);
 $notSurePercent = (($notSure / $deathTotal) * 100);
-$notSurePercent = nearest (.01,$notSurePercent);
+$notSurePercent = sprintf("%.2f",$notSurePercent);
 $naturalPercent = (($natural / $deathTotal) * 100);
-$naturalPercent = nearest (.01,$naturalPercent);
+$naturalPercent = sprintf("%.2f",$naturalPercent);
 #Print out all data
 print "\nMarried individuals that died in an accident: ".$accident." or ".$accidentPercent."%\n";
 print "Married individuals that died as a result of self harm or suicide: ".$selfHarmOrSuicide." or ".$selfHarmOrSuicidePercent."\n";

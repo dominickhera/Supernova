@@ -6,7 +6,6 @@ use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-use Math::Round; #Math Module to round numbers
 #
 #      Author(s): Kevin Pirabaharan (0946212)
 #      kpirabah@mail.uoguelph.ca
@@ -155,8 +154,8 @@ for (my $b = $yearBegin; $b le $yearFinish; $b++) #Loop data to print outputs fo
     $avgSingle[$b] = (($singleMother[$b] / $pregnancies[$b]) * 100);
     $avgTeen[$b] = (($teenPregnancyRate[$b] / $pregnancies[$b]) * 100);
 #   The percentages are rounded to nearest 2 decimal places
-    $avgSingle[$b] = nearest(.01, $avgSingle[$b]);
-    $avgTeen[$b] = nearest(.01, $avgTeen[$b]);
+    $avgSingle[$b] = sprintf("%.2f",$avgSingle[$b]);
+    $avgTeen[$b] = sprintf("%.2f",$avgTeen[$b]);
     print "\nYear ".$b.": \n";
     print "Number of Pregnancies: ".$pregnancies[$b]."\n";
     print "Average Age of Child Birth: ".$avgAge[$b]."\n";
