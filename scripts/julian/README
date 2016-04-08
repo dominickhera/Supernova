@@ -7,13 +7,22 @@ CIS*2250_W16
 
 Script:
     readHomicideAndRace.pl
+    plot.pl
+    menu.pl 
 
 Descrip:
     This script reads, from a file, the races and homicides for a given range
     of years.  These years are specified using command line arguments.
 
+    plot.pl plots two arrays on opposing axis, using a simple line plot.
+
+    menu.pl is a driver which links the different perl files together using
+    a simple but cohesive menu system and system calls.
+
 Usage:  
     ./readHomicideAndRace.pl <start year> <end year>
+    plot.pl is only called as a sub
+    menu is to be run in the project from using ./run.sh
 
 Return:
     The races' murder rates for the years, represented as:
@@ -21,7 +30,12 @@ Return:
     where x is the race number (according to the US mortality encoding)
     where y is the number of murders that have occured in that race.
 
+    plot.pl produces a lovely graph.
+
+    menu does not return anything.
+
 Optionally:
+    @depricated: please note "test" option is no longer functional.
     to access the debug (short hand) version, pass "test" in as the final argument.
     to enable time stamps, include "time" as the final (3rd) argument.
         ("test" enables time as well)

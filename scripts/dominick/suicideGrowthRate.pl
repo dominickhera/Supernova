@@ -79,8 +79,8 @@ if ($#ARGV != 1 )
 else
 {
 
-    $filename = "$path.$firstYear"."$baseName"."$suffix";
-    $secondFilename = "$path.$secondYear"."$baseName"."$suffix";
+    $filename = "$path"."$firstYear"."$baseName"."$suffix";
+    $secondFilename = "$path"."$secondYear"."$baseName"."$suffix";
 }
 
 #

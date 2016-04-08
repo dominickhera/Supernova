@@ -43,7 +43,7 @@ my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanes
 my $homicides = 0;
 
 my $file_path;
-my $file_suffix = "dat.txt";
+my $file_suffix = "homAndRace.txt";
 
 my $start_year;
 my $end_year;

@@ -77,8 +77,21 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
             $choice = choose("Please select an option:\n1) Education and Death Rate stats\n2) Homicide Rates by Race stats\n3) Marriage and Manner of Death stats\n4) Teen Suicide Rates by Year stats\n5) back");
             if($choice eq '1' or index("education and death rate stats", $choice) != -1) # Education + DR
             {
-                print "Not Working Yet :P\n";
-                <>;
+                my $syear = 1996;
+                my $eyear = 2014;
+                $syear = getYear("Please enter a starting year (1996-2013)");
+                while($syear < 1996 or $syear > 2013) # invalid start year.
+                {
+                    $syear = getYear("Please enter a starting year (1996-2013)");
+                }
+
+                $eyear = getYear("Please enter an ending year (1997-2014)");
+                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                {
+                    $eyear = getYear("Please enter an ending year (1997-2014)");
+                }
+                print "\nWorking...\n\n";
+                system("./src/educationAndDeath.pl $syear $eyear $f_path");
             }
             elsif($choice eq '2' or index("homicide rates by race stats", $choice) != -1) # Homicide by race
             {
@@ -118,10 +131,23 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
             }
             elsif($choice eq '4' or index("teen suicide rates by year stats", $choice) != -1) # teen suicide
             {
-                print "Not Working Yet :P\n";
-                <>;
+                my $syear = 1996;
+                my $eyear = 2014;
+                $syear = getYear("Please enter a starting year (1996-2013)");
+                while($syear < 1996 or $syear > 2013) # invalid start year.
+                {
+                    $syear = getYear("Please enter a starting year (1996-2013)");
+                }
+
+                $eyear = getYear("Please enter an ending year (1997-2014)");
+                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                {
+                    $eyear = getYear("Please enter an ending year (1997-2014)");
+                }
+                print "\nWorking...\n\n";
+                system("./src/suicideGrowthRate.pl $syear $eyear");            
             }
-            else
+            elsif($choice eq '5' or index("back", $choice) != -1)
             {
                 last;
             }
@@ -129,15 +155,15 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
     }
     elsif($choice eq '3' or index("quit", $choice) != -1)# quit selected
     {
-       $choice = choose("Are you sure you want to quit?"); 
-       while($choice ne "y" and $choice ne "n") # the user hasn't given valid input
-       {
+        $choice = choose("Are you sure you want to quit?"); 
+        while($choice ne "y" and $choice ne "n") # the user hasn't given valid input
+        {
             $choice = choose("Are you sure you want to quit?");
-       }
-       if($choice eq 'y')
-       {
+        }
+        if($choice eq 'y')
+        {
             last;
-       }
+        }
     }
 }
 
