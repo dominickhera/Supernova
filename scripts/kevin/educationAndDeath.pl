@@ -7,20 +7,24 @@ use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
 #
-#   educationAndDeath.pl
 #      Author(s): Kevin Pirabaharan (0946212)
-#      Project: Level of Education vs. Death Rate
-#      Date of Last Update: Saturday, March 21 2016.
+#      kpirabah@mail.uoguelph.ca
+#      Date of Last Update: Thursday, April 7 2016.
 #
 #      Functional Summary
-#         educationAndDeath.pl takes in a CSV (comma separated version) file
-#         containing death stats for the USA for a particular year
+#          The script produces data related to the death data files
+#          CDC in the United States.  The program tracks data in
+#          in relation to the deceased's education and determines if lower levels of
+#          education correlate to a higher death rate. The data is outputted in text form.
 #
-#      Commandline Parameters: 1
+#      Commandline Parameters:
 #         $ARGV[0] = year to start reading textfiles for
 #         $ARGV[1] = year to stop reading textfiles for
+#         $ARGV[2]: The path to the data files.
 #
-#      References
+#      Errors:
+#         Pass in the correct number of arguments, or the
+#         script will complain and exit.
 #
 #   Variables to be used
 #
@@ -39,15 +43,16 @@ my $suffix = "EducationData.txt";
 my $yearBegin;
 my $yearFinish;
 my $yearCurrent;
+my $yearDifference;
 my $test_flag = 0;
 my $record_count;
 my $educatedWorkDeath = 0;
 my $uneducatedWorkDeath = 0;
 
 
-if($#ARGV < 1) #Manage the number of arguments
+if($#ARGV < 2) #Manage the number of arguments
 {
-    print "Incorrect arguments.  Please use as ./educationAndDeath.pl <start year> <end year>\n";
+    print "Incorrect arguments.  Please use as marriageAndDeath.pl <start year> <end year> ./<path>/\n";
     die "Argument Error\n";
     exit;
 }
@@ -55,13 +60,16 @@ else
 {
     $yearBegin = $ARGV[0];
     $yearFinish   = $ARGV[1];
-    if($#ARGV > 1)
+    $yearDifference = $yearFinish - $yearBegin;
+    if ($yearDifference le 0)
     {
-        if($ARGV[2] eq 'test') #Use test cases right now to save time
-        {
-            $test_flag = 1;
-            $suffix = "Test.txt";
-        }
+        print "Invalid input of years, starting year must be less than end year and they can't be the same\n";
+        die "Input Error\n";
+        exit;
+    }
+    else
+    {
+        $file_path = $ARGV[2];
     }
 }
 #
@@ -69,7 +77,7 @@ else
 #
 for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
 {
-    my $filename = $yearCurrent.$suffix;
+    my $filename = $file_path.$yearCurrent.$suffix;
     my @records;
 
     open my $textFile, '<', $filename
@@ -178,7 +186,7 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
                         $uneducatedCount ++;
                         if (defined $injury)
                         {
-                            if ($injury eq 'Y')
+                            if ($injury eq 'Y' || $injury eq '1')
                             {
                                 $uneducatedWorkDeath ++;
                                 $educatedWorkDeath ++;
@@ -195,13 +203,6 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
                         $educatedWorkDeath ++;
                     }
                 }
-            }
-        }
-        else
-        {
-            if($test_flag == 1)
-            {
-                warn "Could not parse line $dataRecords\n";
             }
         }
     }

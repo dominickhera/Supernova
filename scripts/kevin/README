@@ -1,0 +1,72 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kevin Pirabaharan
+0946212
+kpirabah@mail.uoguelph.ca
+CIS*2250_W16
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Script:
+	motherBirth.pl
+
+Description:
+	The script reads data from the years between and including ones provided by arguments.
+    It finds the average age of child birth, in addition to finding an overall trend of teen pregnancy and the % of single mothers between the specified years.
+
+Usage:
+	./perl motherBirth.pl <start year> <end year> <path>
+
+Return:
+    Year <Year number>:
+    Number of Pregnancies: <Number of Pregnancies Current Year>
+    Average Age of Child Birth: <Average Age of Child Birth Current Year>
+    Number of Single Mothers: <Single Mothers Current Year> or <Percentage of Single Mothers Current Year>
+    Number of Teen Mothers: <Teen Pregnancies Current Year> or <Percentage of Teen Pregnancies Current Year>
+
+    .....(repeat above for however many years specified)
+
+    Using the birth data from <Year Start> to <Year End>, we can tell that in the last <Difference of Years> years:
+    * <Conclusion on average age of child birth>
+    * <Conclusion on single mothers of child birth>
+    * <Conclusion on teen pregnancy of child birth>
+
+***************************************************************************************************
+
+Script:
+	motherBirth.pl
+
+Description:
+	The script reads data from the years between and including ones provided by arguments.
+    It finds the average age of child birth, in addition to finding an overall trend of teen pregnancy and the % of single mothers between the specified years.
+
+Usage:
+	./perl motherBirth.pl <start year> <end year> <path>
+
+Return:
+    Year <Year number>:
+    Number of Pregnancies: <Number of Pregnancies Current Year>
+    Average Age of Child Birth: <Average Age of Child Birth Current Year>
+    Number of Single Mothers: <Single Mothers Current Year> or <Percentage of Single Mothers Current Year>
+    Number of Teen Mothers: <Teen Pregnancies Current Year> or <Percentage of Teen Pregnancies Current Year>
+
+    .....(repeat for however many years specified)
+
+    Using the birth data from <Year Start> to <Year End>, we can tell that in the last <Difference of Years> years:
+    * <Conclusion on average age of child birth>
+    * <Conclusion on single mothers of child birth>
+    * <Conclusion on teen pregnancy of child birth>
+
+***************************************************************************************************
+
+Script:
+	birthweight.pl
+
+Description:
+	The script reads from the one inputted textfile and finds the highest,lowest and average birth weight for every month in that year
+
+Usage:
+	./perl birthweight.pl <year>
+
+Return:
+	Highest weight for <Month> is <Highest Weight>
+	Lowest weight for <Month> is <Lowest Weight>
+	Average weight for <Month> is <Average Weight>
