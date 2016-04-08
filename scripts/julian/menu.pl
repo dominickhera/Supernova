@@ -145,8 +145,9 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
-                system("./src/suicideGrowthRate.pl $syear $eyear $f_path");            }
-            else
+                system("./src/suicideGrowthRate.pl $syear $eyear");            
+            }
+            elsif($choice eq '5' or index("back", $choice) != -1)
             {
                 last;
             }
@@ -154,15 +155,15 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
     }
     elsif($choice eq '3' or index("quit", $choice) != -1)# quit selected
     {
-       $choice = choose("Are you sure you want to quit?"); 
-       while($choice ne "y" and $choice ne "n") # the user hasn't given valid input
-       {
+        $choice = choose("Are you sure you want to quit?"); 
+        while($choice ne "y" and $choice ne "n") # the user hasn't given valid input
+        {
             $choice = choose("Are you sure you want to quit?");
-       }
-       if($choice eq 'y')
-       {
+        }
+        if($choice eq 'y')
+        {
             last;
-       }
+        }
     }
 }
 
