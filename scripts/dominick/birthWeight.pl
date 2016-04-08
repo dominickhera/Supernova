@@ -7,8 +7,24 @@ use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
 # use Term::ProgressBar;
-use Statistics::R;
-require "./plot.pl";
+# use Statistics::R;
+# require "./plot.pl";
+
+#
+# Author: Dominick Hera
+# dhera@mail.uoguelph.ca
+#
+# This script produces the amount of babies born at the highest and lowest weight
+# for each month of the specified year along with the average birth weight for that
+# month.
+#
+#   ARGS:
+#       ARGV[0]: The year that will be used
+#
+#   Errors:
+#       pass in the correct number of arguments, or the 
+#       script will complain and exit.
+#
 
 
 my $EMPTY = q{};
@@ -42,10 +58,10 @@ my @month;
 my @month1;
 my @Mtotal;
 my @hold;
-# my $path = "./assets/";
+my $path = "./assets/";
 my $suffix = ".txt";
-my $baseName = "birthTest";
-my $outputPDFpath = "testPDF";
+my $baseName = "dom";
+# my $outputPDFpath = "testPDF";
 
 $month1[1] = "January";
 $month1[2] = "February";
@@ -112,7 +128,6 @@ for (my $c = 1; $c <= 12; $c++)
 for (my $b = 1; $b <= 12; $b++)
 {
     $count = 0;
-# $lowWeightCount = $weight[1];
     print "starting low weight ".$lowWeightCount."\n";
     for (my $i = 1; $i < $record2; $i++)
     {
@@ -128,14 +143,12 @@ for (my $b = 1; $b <= 12; $b++)
                 }
                 $highBabyCount = 0;
                 $highWeightCount = $weight[$i];
-                # print "new highest weight ".$highWeightCount."\n";
                 $totalWeightCount += $weight[$i];
             }
             elsif($weight[$i] < $lowWeightCount)
             {
                 $lowBabyCount = 0;
                 $lowWeightCount = $weight[$i];
-                # print "new lowest weight ".$lowWeightCount."\n";
                 $totalWeightCount += $weight[$i];
             }
             elsif($weight[$i] == $highWeightCount)
@@ -156,11 +169,7 @@ for (my $b = 1; $b <= 12; $b++)
     $finalAverage = ($medianWeightCount * $poundConversion);
     print $highBabyCount." babies were born with the max weight of ".$finalHigh." lbs. in ".$month1[$b]."\n";
     print $lowBabyCount." babies were born with the max weight of ".$finalLow." lbs. in ".$month1[$b]."\n";
-    # print "Highest Weight for ".$month1[$b].": ".$finalHigh." lbs\n";
-    # print "Lowest Weight for ".$month1[$b].": ".$finalLow." lbs\n";
     print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n\n";
-
-    plot_data("Month", \@month, "Amount of High Births", \$highBabyCount, "Birth Weight.pdf");
     $finalHigh = 0;
     $finalLow = 0;
     $finalAverage = 0;

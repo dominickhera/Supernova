@@ -7,6 +7,24 @@ use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
 
+
+#
+# Author: Dominick Hera
+# dhera@mail.uoguelph.ca
+#
+# This script produces the total amount of suicides for teenagers aged 13-19 for the
+# start and ending year and then uses the information to find the growth rate over
+# the difference in years and displays the percentage growth rate to the user.
+#
+#   ARGS:
+#       ARGV[0]: The starting year that will be used
+#       ARGV[1]: The ending year that will be used
+#
+#   Errors:
+#       pass in the correct number of arguments, or the 
+#       script will complain and exit.
+#
+
 #
 #   Variables to be used
 #
@@ -131,6 +149,16 @@ for (my $c = 1; $c <= 12; $c++)
     }
 }
 
+#FOR 2003+
+#age format is changed to 1013 - 1019
+#
+#Race is masterfields[5]
+#
+#
+#FOR 2002-
+#age is a different format so it's 013 - 019
+#
+
 if ($firstYear > 2002)
 {
     for (my $b = 1; $b <= 12; $b++)
@@ -204,7 +232,6 @@ my $endTime = localtime;
 print "Script finished at ".$endTime."\n";
 print "Total Teen Suicides in ".$firstYear.": ".$firstSuicideCount."\n";
 print "Total Teen Suicides in ".$secondYear.": ".$secondSuicideCount."\n";
-# print "Year Difference is ".$yearDifference."\n";
 print "The growth rate of suicides between ".$firstYear." and ".$secondYear." is ".$percentGrowthRate."%\n";
 
 #
