@@ -33,6 +33,7 @@ my $COMMA = q{,};
 my $filename     = $EMPTY;
 my $fileStart = $EMPTY;
 my $fileEnd = $EMPTY;
+my $file_path = $EMPTY;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my $injury;
 my $meansDeath;
