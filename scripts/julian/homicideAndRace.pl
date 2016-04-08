@@ -24,7 +24,7 @@ my $COMMA = q{,};
 #       ARGV[2]: The path to the data files.
 #
 #   Errors:
-#       pass in the correct number of arguments, or the 
+#       pass in the correct number of arguments, or the
 #       script will complain and exit.
 #
 
@@ -39,7 +39,7 @@ my $record_count = 0;
 
 my @race_manner = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 my @rcs = (0,1,2,3,4,5,6,7,8,9,10,11,12,13);
-my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanese', 'Hawaiian', 'Filipino', 'Asian-Indian', 'Korean', 'Samoan', 'Vietnamese', 'Guamanian', 'Other Asian/Pacific Islander'); 
+my @races   = ('Other', 'White', 'Black', 'American-Indian', 'Chinese', 'Japanese', 'Hawaiian', 'Filipino', 'Asian-Indian', 'Korean', 'Samoan', 'Vietnamese', 'Guamanian', 'Other Asian/Pacific Islander');
 my $homicides = 0;
 
 my $file_path;

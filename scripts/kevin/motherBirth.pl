@@ -35,6 +35,7 @@ my @teenPregnancyRate;
 my @pregnancies;
 my @pregnantAge;
 my @singleMother;
+my @years;
 my $EMPTY = q{};
 my $COMMA = q{,};
 my $filename     = $EMPTY;
@@ -92,6 +93,7 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
     $pregnancies[$yearCurrent] = 0;
     $pregnantAge[$yearCurrent] = 0;
     $singleMother[$yearCurrent] = 0;
+    $years[$yearCurrent] = $yearCurrent;
 
     foreach my $dataRecords (@records) #parsing
     {
