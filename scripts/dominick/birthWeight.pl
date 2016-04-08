@@ -88,7 +88,7 @@ if ($#ARGV != 0 )
 } 
 else
 {
-    $filename = "$birthYear"."$baseName"."$suffix";
+    $filename = "$path"."$birthYear"."$baseName"."$suffix";
 }
 
 open my $names_fh, '<', $filename
@@ -124,6 +124,7 @@ for (my $c = 1; $c <= 12; $c++)
         $month[$c] = $c;
     }
 }
+
 
 for (my $b = 1; $b <= 12; $b++)
 {
