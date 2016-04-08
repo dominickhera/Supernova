@@ -1,18 +1,14 @@
 #!/usr/bin/perl
-
 use strict;
 use warnings;
 use version;    our $VERSION = qv('5.16.0');
 use Text::CSV 1.32;
 
 my $csv = Text::CSV->new({sep_char => ','});
-
 my $ifname;
 my $ofname;
-
 my $file_suffix = "MortUSA.txt";
-my $out_file_suffix = "EducationData.txt";
-
+my $out_file_suffix = "MarriageData.txt";
 
 for my $year (1996..2014)
 {
@@ -30,44 +26,25 @@ for my $year (1996..2014)
     while($line = <$ifile>)
     {
         my $manner;
-        my $education;
-        my $injury;
+        my $maritalStatus;
         if($csv->parse($line))
         {
             my @fields = $csv->fields();
 
-            if($year eq 2003)
+            if($year > 2002)
             {
-                $injury = $fields[11];
-                $manner = $fields[12];
-                $education = $fields[7];
-
-                if (defined $education) #Checks so that the variable has a defined value
-                {
-
-                }
-                else
-                {
-                    $education = $fields[8];
-                }
-            }
-            elsif($year > 2003)
-            {
-                $education = $fields[7];
-                $injury = $fields[11];
+                $maritalStatus = $fields[6];
                 $manner = $fields[12];
             }
-            elsif ($year < 2003)
+            else
             {
-                $education = $fields[7];
-                $injury = $fields[10];
+                $maritalStatus = $fields[7];
                 $manner = $fields[11];
             }
         }
-
-        if(defined $manner and defined $education and defined $injury)
+        if(defined $manner and defined $maritalStatus)
         {
-            print $ofile $education.":".$manner.":".$injury."\n";
+            print $ofile $maritalStatus.":".$manner."\n";
         }
     }
 
@@ -76,8 +53,6 @@ for my $year (1996..2014)
     close($ifile);
     close($ofile);
 }
-
-
 #
 #   CLOSE;
 #
