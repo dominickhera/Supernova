@@ -56,15 +56,39 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
         $choice = '0';
         while(not($choice ne '2' and index("back", $choice) != -1)) # while we havent chosen back
         {
-            $choice = choose("Please select an option:\n1) Birth Weight by Month stats\n2) back");
+            $choice = choose("Please select an option:\n1) Birth Weight by Month stats\n2) Mother Birth Age stats\n3) back");
             if($choice eq "1" or index("birth weight", $choice) != -1)
             {
                 my $year = 1996;
+                $year = getYear("Please enter a year to examine (1996-2014)");
+                while($year < 1996 or $year > 2014) # invalid start year.
+                {
+                    $year = getYear("Please enter a starting year (1996-2014)");
+                }
                 system("./src/birthWeight.pl $year"); # call birth weight script 
             }
-            else
+            elsif($choice eq "2" or index("Mother Birth Age stats", $choice) != -1)
             {
-                last;
+                my $syear = 1996;
+                my $eyear = 2014;
+                $syear = getYear("Please enter a starting year (1996-2013)");
+                while($syear < 1996 or $syear > 2013) # invalid start year.
+                {
+                    $syear = getYear("Please enter a starting year (1996-2013)");
+                }
+
+                $eyear = getYear("Please enter an ending year (1997-2014)");
+                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                {
+                    $eyear = getYear("Please enter an ending year (1997-2014)");
+                }
+                print "\nWorking...\n\n";
+                system("./src/motherBirth.pl $syear $eyear $f_path");
+
+            }
+            elsif($choice eq "3" or index("back", $choice) != -1)
+            {
+
             }
         }
 
