@@ -49,7 +49,9 @@ my $test_flag = 0;
 my $record_count;
 my $educatedWorkDeath = 0;
 my $uneducatedWorkDeath = 0;
+my $startTime = localtime;
 
+print "Script started at ".$startTime."\n";
 
 if($#ARGV < 2) #Manage the number of arguments
 {
@@ -208,6 +210,7 @@ for $yearCurrent ($yearBegin..$yearFinish) #loop for all denoted years
         }
     }
 }
+my $endTime = localtime;
 
 print "Total Deaths With Low-Education Level: ".$uneducatedCount."\n";
 print "Total Deaths With Higher-Education Level: ".$educatedCount."\n";
@@ -226,6 +229,10 @@ else
 {
     print "Therefore lower education doesn't correlate to highter death.\n";
 }
+
+
+print "Script finished at ".$endTime."\n";
+
 #
 #   End of Script
 #
