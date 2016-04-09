@@ -56,6 +56,8 @@ my @mod;
 my @Ftotal;
 my @month;
 my @month1;
+my @monthArray = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+my @highBabies = (0,0,0,0,0,0,0,0,0,0,0,0);
 my @Mtotal;
 my @hold;
 my $path = "./assets/";
@@ -129,7 +131,6 @@ for (my $c = 1; $c <= 12; $c++)
 for (my $b = 1; $b <= 12; $b++)
 {
     $count = 0;
-    print "starting low weight ".$lowWeightCount."\n";
     for (my $i = 1; $i < $record2; $i++)
     {
         if ($date[$i] eq $month[$b])
@@ -168,6 +169,7 @@ for (my $b = 1; $b <= 12; $b++)
     $finalHigh = ($highWeightCount * $poundConversion);
     $finalLow = ($lowWeightCount * $poundConversion);
     $finalAverage = ($medianWeightCount * $poundConversion);
+    @highBabies[$b] = $highBabyCount;
     print $highBabyCount." babies were born with the max weight of ".$finalHigh." lbs. in ".$month1[$b]."\n";
     print $lowBabyCount." babies were born with the max weight of ".$finalLow." lbs. in ".$month1[$b]."\n";
     print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n\n";
@@ -184,6 +186,8 @@ for (my $b = 1; $b <= 12; $b++)
     $highBabyCount = 0;
     $hold[$b] = $count;
 }
+
+    plot_data("Months", \@monthArray, "Amount of Births", \@highBabies, "Highest Monthly Birth Count.pdf");
 
 my $endTime = localtime;
 print "Script finished at ".$endTime."\n\n";
