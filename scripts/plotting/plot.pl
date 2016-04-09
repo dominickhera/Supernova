@@ -26,6 +26,10 @@ sub plot_data
     my @x_data = @{$xd};
     my @y_data = @{$yd};
 
+    
+    $x_label =~ s/ /_/g;
+    $y_label =~ s/ /_/g;
+
     my $data;#= "Stat#    $x_label    $y_label";
 
     my $R = Statistics::R->new();

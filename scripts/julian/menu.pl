@@ -46,7 +46,12 @@ sub choose
     return $resp;
 }
 
-print "Welcome to the Supernova Trend Engine, Aplha v1.0\nPlease note that data aggregated in these statistics may not be entirely accurate,\nas some deaths may not have been reported, recorded, or calculated properly in this software.\nDo not assume any data is entirely accurate as it is presented here.\n\n";
+sub warn_user
+{
+    print "Sorry, that input wasn't valid.\n";
+}
+
+print "Welcome to the Supernova Trend Engine, Alpha v1.0\nPlease note that data aggregated in these statistics may not be entirely accurate,\nas some deaths may not have been reported, recorded, or calculated properly in this software.\nDo not assume any data is entirely accurate as it is presented here.\n\n";
 
 while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
 {
@@ -56,7 +61,7 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
         $choice = '0';
         while(not($choice ne '2' and index("back", $choice) != -1)) # while we havent chosen back
         {
-            $choice = choose("Please select an option:\n1) Birth Weight by Month stats\n2) Mother Birth Age stats\n3) back");
+            $choice = choose("Please select an option:\n1) Birth Weight by Month stats\n2) Mother Birth Age stats\n3) Back");
             if($choice eq "1" or index("birth weight", $choice) != -1)
             {
                 my $year = 1996;
@@ -74,12 +79,14 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                 $syear = getYear("Please enter a starting year (1996-2013)");
                 while($syear < 1996 or $syear > 2013) # invalid start year.
                 {
+                    warn_user();
                     $syear = getYear("Please enter a starting year (1996-2013)");
                 }
 
                 $eyear = getYear("Please enter an ending year (1997-2014)");
-                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                while($eyear < 1997 or $eyear > 2014 or $eyear <= $syear) # while the end year is invalid
                 {
+                    warn_user();
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
@@ -88,7 +95,8 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
             }
             elsif($choice eq "3" or index("back", $choice) != -1)
             {
-
+                $choice = 0;
+                last;
             }
         }
 
@@ -98,7 +106,7 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
         $choice = 0;
         while(not($choice ne '5' and index("back", $choice) != -1)) # while we havent chosen back
         {
-            $choice = choose("Please select an option:\n1) Education and Death Rate stats\n2) Homicide Rates by Race stats\n3) Marriage and Manner of Death stats\n4) Teen Suicide Rates by Year stats\n5) back");
+            $choice = choose("Please select an option:\n1) Education and Death Rate stats\n2) Homicide Rates by Race stats\n3) Marriage and Manner of Death stats\n4) Teen Suicide Rates by Year stats\n5) Back");
             if($choice eq '1' or index("education and death rate stats", $choice) != -1) # Education + DR
             {
                 my $syear = 1996;
@@ -106,12 +114,14 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                 $syear = getYear("Please enter a starting year (1996-2013)");
                 while($syear < 1996 or $syear > 2013) # invalid start year.
                 {
+                    warn_user();
                     $syear = getYear("Please enter a starting year (1996-2013)");
                 }
 
                 $eyear = getYear("Please enter an ending year (1997-2014)");
-                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                while($eyear < 1997 or $eyear > 2014 or $eyear <= $syear) # while the end year is invalid
                 {
+                    warn_user();
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
@@ -124,12 +134,14 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                 $syear = getYear("Please enter a starting year (1996-2013)");
                 while($syear < 1996 or $syear > 2013) # invalid start year.
                 {
+                    warn_user();
                     $syear = getYear("Please enter a starting year (1996-2013)");
                 }
 
                 $eyear = getYear("Please enter an ending year (1997-2014)");
-                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                while($eyear < 1997 or $eyear > 2014 or $eyear <= $syear) # while the end year is invalid
                 {
+                    warn_user();
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
@@ -142,12 +154,14 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                 $syear = getYear("Please enter a starting year (1996-2013)");
                 while($syear < 1996 or $syear > 2013) # invalid start year.
                 {
+                    warn_user();
                     $syear = getYear("Please enter a starting year (1996-2013)");
                 }
 
                 $eyear = getYear("Please enter an ending year (1997-2014)");
-                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                while($eyear < 1997 or $eyear > 2014 or $eyear <= $syear) # while the end year is invalid
                 {
+                    warn_user();
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
@@ -160,12 +174,14 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
                 $syear = getYear("Please enter a starting year (1996-2013)");
                 while($syear < 1996 or $syear > 2013) # invalid start year.
                 {
+                    warn_user();
                     $syear = getYear("Please enter a starting year (1996-2013)");
                 }
 
                 $eyear = getYear("Please enter an ending year (1997-2014)");
-                while($eyear < 1997 or $eyear > 2014) # while the end year is invalid
+                while($eyear < 1997 or $eyear > 2014 or $eyear <= $syear) # while the end year is invalid
                 {
+                    warn_user();
                     $eyear = getYear("Please enter an ending year (1997-2014)");
                 }
                 print "\nWorking...\n\n";
@@ -180,11 +196,11 @@ while($choice ne 'q' and $choice ne "quit" and $choice ne '3')
     elsif($choice eq '3' or index("quit", $choice) != -1)# quit selected
     {
         $choice = choose("Are you sure you want to quit?"); 
-        while($choice ne "y" and $choice ne "n") # the user hasn't given valid input
+        while(index("Yesyes", $choice) == -1 and index("Nono", $choice) == -1) # the user hasn't given valid input
         {
             $choice = choose("Are you sure you want to quit?");
         }
-        if($choice eq 'y')
+        if(index("Yesyes", $choice) != -1)
         {
             last;
         }
