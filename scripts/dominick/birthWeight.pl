@@ -169,7 +169,7 @@ for (my $b = 1; $b <= 12; $b++)
     $finalHigh = ($highWeightCount * $poundConversion);
     $finalLow = ($lowWeightCount * $poundConversion);
     $finalAverage = ($medianWeightCount * $poundConversion);
-    @highBabies[$b] = $highBabyCount;
+    $highBabies[$b] = $highBabyCount;
     print $highBabyCount." babies were born with the max weight of ".$finalHigh." lbs. in ".$month1[$b]."\n";
     print $lowBabyCount." babies were born with the max weight of ".$finalLow." lbs. in ".$month1[$b]."\n";
     print "Average Weight for ".$month1[$b].": ".$finalAverage." lbs\n\n";
